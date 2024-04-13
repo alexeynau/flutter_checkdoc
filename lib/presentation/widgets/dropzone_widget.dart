@@ -50,6 +50,7 @@ class _DropzoneWidgetState extends State<DropzoneWidget> {
                   
                   print(ev);
                 },
+
                 onHover: () {
                   setState(() {Duration(seconds: 2);
                     isHovered = true;
@@ -111,5 +112,18 @@ class _DropzoneWidgetState extends State<DropzoneWidget> {
         ),
       ),
     );
+  }
+
+  Future acceptFile(dynamic event) async {
+    final name = event.name;
+    final mime = await controller.getFileMIME(event);
+    final bytes = await controller.getFileSize(event);
+    final url = await controller.createFileUrl(event);
+
+    print('Name: $name');
+    print('Mime: $mime');
+    print('Bytes: $bytes');
+    print('Url: $url');
+    
   }
 }
