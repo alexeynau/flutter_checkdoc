@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 
-class AuthPage extends StatefulWidget {
-  const AuthPage({super.key});
+class RegistrationPage extends StatefulWidget {
+  const RegistrationPage({super.key});
 
   @override
-  State<AuthPage> createState() => _AuthPageState();
+  State<RegistrationPage> createState() => _RegistrationPageState();
 }
 
-class _AuthPageState extends State<AuthPage> {
+class _RegistrationPageState extends State<RegistrationPage> {
   bool isObscure = true;
+  bool isObscureSec = true;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _passwordControllerConfirm =
+      TextEditingController();
+  bool passErr = false;
   TextStyle style =
       const TextStyle(fontSize: 18, color: Colors.grey, height: 2);
   @override
@@ -20,7 +24,7 @@ class _AuthPageState extends State<AuthPage> {
         child: Column(
           children: [
             const Text(
-              "Authorization",
+              "Registration",
               style: TextStyle(
                 fontSize: 18,
                 height: 1.5,
@@ -32,7 +36,7 @@ class _AuthPageState extends State<AuthPage> {
             SizedBox(
               width: 398,
               height: 52,
-              child:  TextField(
+              child: TextField(
                 controller: _emailController,
                 style: const TextStyle(fontSize: 18, height: 1.5),
                 decoration: const InputDecoration(
@@ -92,19 +96,67 @@ class _AuthPageState extends State<AuthPage> {
             SizedBox(
               width: 398,
               height: 52,
+              child: TextField(
+                controller: _passwordControllerConfirm,
+                obscureText: isObscureSec,
+                style: style,
+                decoration: InputDecoration(
+                  prefix: const Text("   "),
+                  suffixIcon: Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: IconButton(
+                      splashColor: const Color.fromARGB(0, 0, 0, 0),
+                      hoverColor: const Color.fromARGB(0, 0, 0, 0),
+                      focusColor: const Color.fromARGB(0, 0, 0, 0),
+                      highlightColor: const Color.fromARGB(0, 0, 0, 0),
+                      onPressed: () {
+                        setState(() {
+                          isObscureSec = !isObscureSec;
+                        });
+                      },
+                      icon: Icon(
+                        isObscureSec
+                            ? Icons.remove_red_eye
+                            : Icons.remove_red_eye_outlined,
+                        color: Colors.grey,
+                        size: 23,
+                      ),
+                    ),
+                  ),
+                  hintStyle: const TextStyle(color: Colors.grey),
+                  hintText: "Подтвердите Пароль",
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                  ),
+                ),
+              ),
+            ),
+            if (passErr)
+              const Text(
+                "Пароли не совпадают, проверьте пароли еще раз",
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 15,
+                ),
+              ),
+            const SizedBox(
+              height: 15,
+            ),
+            SizedBox(
+              width: 398,
+              height: 52,
               child: ElevatedButton(
-                // style: ButtonStyle(
-                //   // shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                //   //     RoundedRectangleBorder(
-                //   //         borderRadius: BorderRadius.circular(30.0),
-                //   //         side: BorderSide(color: Color(0xFF7700FF)))),
-                //   // backgroundColor: MaterialStatePropertyAll(Color(0xFF7700FF)),
-                //   // overlayColor: MaterialStatePropertyAll(
-                //   //     Color.fromARGB(255, 153, 74, 243)),
-                // ),
                 onPressed: () {
+                  
                   // ignore: avoid_print
-                  print("${_emailController.text}  ${_passwordController.text}");//TODO Леха Сюда запрос на авторизацию
+                  if (_passwordController.text ==
+                      _passwordControllerConfirm.text) {
+                        //TODO Леха Сюда запрос на регистррацию
+                  } else {
+                    setState(() {
+                      passErr = true;
+                    });
+                  } 
                 },
                 child: Container(
                   margin: const EdgeInsets.only(right: 25),
