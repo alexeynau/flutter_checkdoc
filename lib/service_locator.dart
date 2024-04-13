@@ -2,6 +2,7 @@
 import 'package:flutter_checkdoc/presentation/bloc/document_list_bloc/document_list_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final getIt = GetIt.instance;
 
@@ -36,7 +37,7 @@ Future<void> setup() async {
   // Common / Core
 
   // External Dependency
-  final dio = Dio(BaseOptions(receiveTimeout: const Duration(seconds: 30)));
+  final dio = Dio(BaseOptions(receiveTimeout: const Duration(seconds: 30) , baseUrl: dotenv.env['URL']!));
   getIt.registerLazySingleton(() => dio);
   // final sharedPreferences = await SharedPreferences.getInstance();
   // getIt.registerLazySingleton(() => sharedPreferences);
