@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_checkdoc/presentation/bloc/document_list_bloc/document_list_bloc.dart';
+import 'package:flutter_checkdoc/presentation/pages/auth_page.dart';
+import 'package:flutter_checkdoc/presentation/pages/registration_page.dart';
 // import 'package:flutter_website/presentation/pages/home_page.dart';
 // import 'presentation/bloc/login_bloc/login_bloc.dart';
 // import 'presentation/pages/login_page.dart';
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         routes: {
-          '/user': (context) => UserPage(),
+          '/user': (context) => RegistrationPage(),
           // '/home': (context) => const HomePage(),
           // Add more routes here
         },
