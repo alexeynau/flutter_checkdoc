@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         },
         debugShowCheckedModeBanner: false,
         initialRoute: '/user',
-        title: 'CRM App',
+        title: 'Check Doc',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
