@@ -22,16 +22,6 @@ class _DropzoneWidgetState extends State<DropzoneWidget> {
         color: isHovered
             ? Colors.grey
             : ColorScheme.fromSeed(seedColor: Colors.deepPurple).surface,
-        // padding: const EdgeInsets.all(10),
-        // decoration: BoxDecoration(
-        //   borderRadius: BorderRadius.circular(10),
-        //   border: Border.all(
-        //     color: isHovered
-        //         ? Colors.green
-        //         : const Color.fromARGB(255, 255, 255, 255),
-        //     width: 2,
-        //   ),
-        // ),
         child: DottedBorder(
           borderType: BorderType.RRect,
           color: const Color.fromARGB(255, 0, 0, 0),
@@ -42,17 +32,9 @@ class _DropzoneWidgetState extends State<DropzoneWidget> {
             children: [
               DropzoneView(
                 onCreated: (controller) => this.controller = controller,
-                onDrop: (ev) {
-                  setState(() {
-                    isReady = true;
-                  isHovered = false;
-                  });
-                  
-                  print(ev);
-                },
-
+                onDrop: acceptFile,
                 onHover: () {
-                  setState(() {Duration(seconds: 2);
+                  setState(() {
                     isHovered = true;
                   });
                 },
@@ -115,6 +97,10 @@ class _DropzoneWidgetState extends State<DropzoneWidget> {
   }
 
   Future acceptFile(dynamic event) async {
+    setState(() {
+      isReady = true;
+      isHovered = false;
+    });
     final name = event.name;
     final mime = await controller.getFileMIME(event);
     final bytes = await controller.getFileSize(event);
@@ -124,6 +110,5 @@ class _DropzoneWidgetState extends State<DropzoneWidget> {
     print('Mime: $mime');
     print('Bytes: $bytes');
     print('Url: $url');
-    
   }
 }
