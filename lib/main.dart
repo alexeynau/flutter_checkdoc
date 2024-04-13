@@ -9,9 +9,11 @@ import 'package:flutter_checkdoc/presentation/pages/registration_page.dart';
 import 'presentation/pages/user_page.dart';
 import 'service_locator.dart' as dependancy_injection;
 import 'service_locator.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   await dependancy_injection.setup();
 
   runApp(const MyApp());

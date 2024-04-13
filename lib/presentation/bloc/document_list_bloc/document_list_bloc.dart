@@ -6,7 +6,7 @@ part 'document_list_state.dart';
 
 class DocumentListBloc extends Bloc<DocumentListEvent, DocumentListState> {
   DocumentListBloc() : super(DocumentListInitial()) {
-    on<DocumentListEvent>((event, emit) async {
+    on<FetchDocumentEvent>((event, emit) async {
       emit(DocumentListLoading());
 
       try {
