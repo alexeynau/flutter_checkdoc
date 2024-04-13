@@ -1,6 +1,8 @@
 
 
 import 'package:dartz/dartz.dart';
+import 'package:flutter_checkdoc/domain/entities/login_request.dart';
+import 'package:flutter_checkdoc/domain/entities/login_response.dart';
 import 'package:flutter_checkdoc/domain/entities/register_request.dart';
 import 'package:flutter_checkdoc/domain/entities/register_response.dart';
 
@@ -12,4 +14,5 @@ abstract class UserRepository {
   Future<Either<Failure, String>> validateDocuments();
   Future<Either<Failure, void>> uploadDocument(UserDocument document);
   Future<Either<Failure, RegisterResponse>> register(RegisterRequest registerRequest);
+  Future<Either<Failure, LoginResponse>> login(LoginRequest loginRequest);
 }

@@ -3,24 +3,22 @@
 import 'package:equatable/equatable.dart';
 
 class RegisterRequest extends Equatable{
-  final String id;
   final String email;
+  final String password;
   final bool isActive;
   final bool isSuperuser;
   final bool isVerified;
-  final int balance;
 
   RegisterRequest({
-    required this.id,
     required this.email,
+    required this.password,
     required this.isActive,
     required this.isSuperuser,
     required this.isVerified,
-    required this.balance,
   });
   
   @override
   // TODO: implement props
-  List<Object?> get props => [id, email, isActive, isSuperuser, isVerified, balance];
+  List<Object?> get props => [email, password, isActive, isSuperuser, isVerified];
 
 }
