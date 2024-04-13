@@ -32,29 +32,32 @@ class UserPage extends StatelessWidget {
             } else if (state is DocumentListLoaded) {
               return Column(
                 children: [
-                  Center(
-                    child: SizedBox(
-                      height: 600,
-                      child: GridView.builder(
-                        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 400,
-                            childAspectRatio: 1,
-                            crossAxisSpacing: 20,
-                            mainAxisSpacing: 20
-                        ),
-                        itemCount: state.documents.length,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              ListTile(
-                                title: Text(state.documents[index]),
+                  Expanded(
+                    child: Center(
+                      child: Container( 
+                        height: 600,
+                        child: GridView.builder(
+                          gridDelegate:
+                              const SliverGridDelegateWithMaxCrossAxisExtent(
+                                  maxCrossAxisExtent: 330,
+                                  // childAspectRatio: 1,
+                                  // crossAxisSpacing: 20,
+                                  // mainAxisSpacing: 20
+                                  ),
+                          itemCount: state.documents.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(state.documents[index]),
+                                  DropzoneWidget()
+                                ],
                               ),
-                              DropzoneWidget()
-                            ],
-                          );
-                        },
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),
@@ -63,8 +66,7 @@ class UserPage extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(20),
                       child: ElevatedButton(
-                        onPressed: () {
-                        },
+                        onPressed: () {},
                         child: const Text('Продолжить'),
                       ),
                     ),
