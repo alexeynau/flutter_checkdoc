@@ -9,6 +9,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.1.5
+  get_it: ^7.6.8
+  dio: ^5.4.2+1
+  meta: ^1.11.0
+  flutter_dropzone: ^4.0.0
+  dotted_border: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -17,3 +23,4 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
