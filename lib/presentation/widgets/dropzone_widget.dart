@@ -19,6 +19,7 @@ class _DropzoneWidgetState extends State<DropzoneWidget> {
   late DropzoneViewController controller;
   bool isHovered = false;
   bool isReady = false;
+  bool isLoad = false;
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -82,14 +83,18 @@ class _DropzoneWidgetState extends State<DropzoneWidget> {
                         ],
                       )
                     : Container(
-                        color: Colors.green,
-                        child: const Center(
+                        color: isLoad ? Colors.grey : Colors.green,
+                        child: Center(
                           child: ClipRRect(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(Icons.done),
-                                Text(" Загружено"),
+                                isLoad
+                                    ? const CircularProgressIndicator()
+                                    : const Icon(Icons.done),
+                                !isLoad
+                                    ? const Text(" Загружено")
+                                    : const Text("Загрузка ......"),
                               ],
                             ),
                           ),
@@ -107,6 +112,8 @@ class _DropzoneWidgetState extends State<DropzoneWidget> {
     final UploadDocument uploadDocument = getIt.get<UploadDocument>();
     final ValidateDocument validateDocument = getIt.get<ValidateDocument>();
     setState(() {
+      isLoad = true;
+      isReady = true;
       isHovered = false;
     });
     final name = event.name;
@@ -128,14 +135,19 @@ class _DropzoneWidgetState extends State<DropzoneWidget> {
       ),
     ));
 
-    if (uploaded.isRight()) {
-      // polling logic
+    if (uploaded.isRight()) { 
       bool getValidation = false;
 
       while (!getValidation) {
         final toValidate = await validateDocument(
           ValidateDocumentParams(
-            docId: uploaded.fold((l) => '', (r) => r.docId),
+            docId: uploaded.fold((l) {
+              setState(() {
+                isReady = false;
+                isLoad = false;
+              });
+              return "";
+            }, (r) => r.docId),
           ),
         );
 
@@ -144,9 +156,6 @@ class _DropzoneWidgetState extends State<DropzoneWidget> {
             if (r.verified != null) {
               if (r.verified!) {
                 getValidation = true;
-                setState(() {
-                  isReady = true;
-                });
               } else {
                 // To do: handle failed validation
                 getValidation = false;
@@ -158,7 +167,14 @@ class _DropzoneWidgetState extends State<DropzoneWidget> {
         }
       }
     } else {
+      setState(() {
+        isReady = false;
+        isLoad = false;
+      });
       print('Error: ${uploaded.fold((l) => l.cause, (r) => '')}');
     }
+    setState(() {
+      isLoad = false;
+    });
   }
 }

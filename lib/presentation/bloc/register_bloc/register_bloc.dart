@@ -11,10 +11,8 @@ part 'register_state.dart';
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final RegisterUser registerUser;
   RegisterBloc({required this.registerUser}) : super(RegisterInitial()) {
-    on<RegisterUserEvent>((event, emit) {
-      emit(RegisterLoading());
-      // Perform the registration logic here
-      // Replace the code below with your actual registration logic
+    on<RegisterUserEvent>((event, emit) async{
+      emit(RegisterLoading()); 
       RegisterRequest registerRequest = RegisterRequest(
         email: event.email,
         password: event.password,
@@ -22,7 +20,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         isSuperuser: false,
         isVerified: true,
       );
-      registerUser(RegisterUserParams(registerRequest: registerRequest))
+      await registerUser(RegisterUserParams(registerRequest: registerRequest))
           .then((response) {
         response.fold(
           (failure) => emit(RegisterFailure(failure.toString())),

@@ -17,22 +17,21 @@ import 'presentation/bloc/register_bloc/register_bloc.dart';
 
 final getIt = GetIt.instance;
 
-  class GlobalVariables {
-    static final GlobalVariables _instance = GlobalVariables._internal();
+class GlobalVariables {
+  static final GlobalVariables _instance = GlobalVariables._internal();
 
-    factory GlobalVariables() {
-      return _instance;
-    }
-
-    GlobalVariables._internal();
-
-    String globalVariable = 'Hello, world!';
+  factory GlobalVariables() {
+    return _instance;
   }
-Future<void> setup() async {
 
+  GlobalVariables._internal();
+
+  String globalVariable = 'Hello, world!';
+}
+
+Future<void> setup() async {
   final globalVariables = GlobalVariables();
   getIt.registerSingleton<GlobalVariables>(globalVariables);
-
 
   getIt.registerFactory(() => LoginUserBloc(loginUser: getIt()));
   getIt.registerFactory(() => RegisterBloc(registerUser: getIt()));
@@ -43,9 +42,7 @@ Future<void> setup() async {
   getIt.registerLazySingleton(() => RegisterUser(getIt()));
   getIt.registerLazySingleton(() => FetchDocuments(getIt()));
   getIt.registerLazySingleton(() => UploadDocument(getIt()));
-  getIt.registerLazySingleton(() => ValidateDocument( userRepository: getIt()));
-  
-
+  getIt.registerLazySingleton(() => ValidateDocument(userRepository: getIt()));
 
   // Repositories
   getIt.registerLazySingleton<UserRepository>(
@@ -54,14 +51,17 @@ Future<void> setup() async {
     ),
   );
 
-  getIt.registerLazySingleton<UserRemoteData>(
-      () => UserRemoteDataImpl());
-
+  getIt.registerLazySingleton<UserRemoteData>(() => UserRemoteDataImpl());
 
   // Common / Core
 
   // External Dependency
-  final dio = Dio(BaseOptions(receiveTimeout: const Duration(seconds: 30) , baseUrl: dotenv.env['URL']!));
+  final dio = Dio(BaseOptions(
+      receiveTimeout: const Duration(seconds: 30),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE, HEAD",
+      },
+      baseUrl: dotenv.env['URL']!));
   getIt.registerLazySingleton(() => dio);
-
 }

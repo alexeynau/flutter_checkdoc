@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 
 class LoginRequest extends Equatable{
-  final String grantType;
+  final String? grantType;
   final String username;
   final String password;
-  final String scope;
-  final String clientId;
-  final String clientSecret;
+  final String? scope;
+  final String? clientId;
+  final String? clientSecret;
 
   const LoginRequest({
     this.grantType = '',

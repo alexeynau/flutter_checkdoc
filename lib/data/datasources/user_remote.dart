@@ -1,5 +1,4 @@
-
-
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_checkdoc/common/errors/exceptions.dart';
@@ -40,13 +39,14 @@ class UserRemoteDataImpl implements UserRemoteData {
     var _dio = getIt<Dio>();
 
     // String fileName = file.path.split('/').last;
-
+    print(session);
     List<int> documentBytes = document.content as List<int>;
     FormData formData = FormData.fromMap({
       "target": document.targetClass,
       "document":
           MultipartFile.fromBytes(documentBytes, filename: document.name),
     });
+    
     var response = await _dio.post(
       "/v1/documents/",
       data: formData,
@@ -93,11 +93,13 @@ class UserRemoteDataImpl implements UserRemoteData {
 
   @override
   Future<RegisterResponseModel> register(RegisterRequestModel registerRequest) {
-    String endpoint = "/v1/register/";
+    String endpoint = "/v1/auth/register/";
 
     var _dio = getIt<Dio>();
 
     return _dio.post(endpoint, data: registerRequest.toJson()).then((response) {
+      print(response.statusCode);
+      print(response.data);
       if (response.statusCode == 201) {
         return RegisterResponseModel.fromJson(response.data);
       } else {
@@ -108,13 +110,25 @@ class UserRemoteDataImpl implements UserRemoteData {
 
   @override
   Future<LoginResponseModel> login(LoginRequestModel loginRequest) {
-    String endpoint = "/v1/login/";
+    String endpoint = "/v1/auth/login/";
 
     var _dio = getIt<Dio>();
+    print(loginRequest.toJson().toString());
+    return _dio
+        .post(
+      endpoint,
+      data: loginRequest.toJson(),
+      options: Options(
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      ),
+    )
+        .then((response) {
 
-    return _dio.post(endpoint, data: loginRequest.toJson()).then((response) {
-      if (response.statusCode == 200) {
-        return LoginResponseModel.fromJson(response.data);
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        // return LoginResponseModel.fromJson(response.data);
+        return LoginResponseModel(token: "", refreshToken: "");
       } else {
         throw ServerException('Failed to login ${response.statusMessage}');
       }

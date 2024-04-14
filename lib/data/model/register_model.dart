@@ -17,9 +17,9 @@ class RegisterRequestModel extends RegisterRequest {
     return RegisterRequestModel(
       password: json["password"],
       email: json["email"],
-      isActive: json["isActive"],
-      isSuperuser: json["isSuperuser"],
-      isVerified: json["isVerified"],
+      isActive: json["is_active"],
+      isSuperuser: json["is_superuser"],
+      isVerified: json["is_verified"],
     );
   }
 
@@ -27,9 +27,9 @@ class RegisterRequestModel extends RegisterRequest {
     return {
       "password": password,
       "email": email,
-      "isActive": isActive,
-      "isSuperuser": isSuperuser,
-      "isVerified": isVerified,
+      "is_active": isActive,
+      "is_superuser": isSuperuser,
+      "is_verified": isVerified,
     };
   }
 
@@ -52,9 +52,9 @@ class RegisterResponseModel extends RegisterResponse {
     return RegisterResponseModel(
       id: json["id"],
       email: json["email"],
-      isActive: json["isActive"],
-      isSuperuser: json["isSuperuser"],
-      isVerified: json["isVerified"],
+      isActive: json["is_active"],
+      isSuperuser: json["is_superuser"],
+      isVerified: json["is_verified"],
       balance: json["balance"],
     );
   }
@@ -63,9 +63,9 @@ class RegisterResponseModel extends RegisterResponse {
     return {
       "id": id,
       "email": email,
-      "isActive": isActive,
-      "isSuperuser": isSuperuser,
-      "isVerified": isVerified,
+      "is_active": isActive,
+      "is_superuser": isSuperuser,
+      "is_verified": isVerified,
       "balance": balance,
     };
   }

@@ -1,15 +1,14 @@
-
 import 'package:flutter_checkdoc/domain/entities/login_request.dart';
 import 'package:flutter_checkdoc/domain/entities/login_response.dart';
 
 class LoginRequestModel extends LoginRequest {
   LoginRequestModel({
-    grantType,
+    grantType = "",
     required super.username,
     required super.password,
-    scope ,
-    clientId,
-    clientSecret,
+    scope = "",
+    clientId = "",
+    clientSecret = "",
   }) : super(
           grantType: grantType,
           scope: scope,
@@ -19,31 +18,31 @@ class LoginRequestModel extends LoginRequest {
 
   factory LoginRequestModel.fromJson(Map<String, dynamic> json) {
     return LoginRequestModel(
-      grantType: json['grantType'],
+      grantType: json['grant_type'],
       username: json['username'],
       password: json['password'],
       scope: json['scope'],
-      clientId: json['clientId'],
-      clientSecret: json['clientSecret'],
+      clientId: json['client_id'],
+      clientSecret: json['client_secret'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "grantType": grantType,
+      "grant_type": grantType,
       "username": username,
       "password": password,
       "scope": scope,
-      "clientId": clientId,
-      "clientSecret": clientSecret,
+      "client_id": clientId,
+      "client_secret": clientSecret,
     };
   }
 }
 
 class LoginResponseModel extends LoginResponse {
   LoginResponseModel({
-     required token,
-   required refreshToken,
+    required token,
+    required refreshToken,
   }) : super(
           token: token,
           refreshToken: refreshToken,
