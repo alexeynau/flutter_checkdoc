@@ -51,8 +51,10 @@ class UserPage extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text(state.documents[index]),
-                                  DropzoneWidget()
+                                  Text(state.documents[index].name),
+                                  DropzoneWidget(
+                                    target_class: state.documents[index].targetClass,
+                                  )
                                 ],
                               ),
                             );

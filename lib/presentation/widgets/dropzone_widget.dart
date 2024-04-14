@@ -1,9 +1,17 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_checkdoc/domain/use_cases/upload_file.dart';
+import 'package:flutter_checkdoc/service_locator.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
 
+import '../../domain/entities/document.dart';
+
 class DropzoneWidget extends StatefulWidget {
+
+  String target_class;
+
+  DropzoneWidget({required this.target_class});
   @override
   _DropzoneWidgetState createState() => _DropzoneWidgetState();
 }
@@ -97,18 +105,29 @@ class _DropzoneWidgetState extends State<DropzoneWidget> {
   }
 
   Future acceptFile(dynamic event) async {
+    final UploadDocument uploadDocument = UploadDocument(getIt());
     setState(() {
-      isReady = true;
       isHovered = false;
     });
     final name = event.name;
     final mime = await controller.getFileMIME(event);
     final bytes = await controller.getFileSize(event);
     final url = await controller.createFileUrl(event);
+    final data = await controller.getFileData(event);
+
+    uploadDocument(UploadDocumentParams(
+      document: UserDocument(
+        name: name,
+        targetClass: widget.target_class,
+        content: data,
+      ),
+    ));
 
     print('Name: $name');
     print('Mime: $mime');
     print('Bytes: $bytes');
     print('Url: $url');
+
+    
   }
 }

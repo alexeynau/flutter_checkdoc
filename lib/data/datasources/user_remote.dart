@@ -6,10 +6,12 @@ import 'package:flutter_checkdoc/data/model/register_model.dart';
 import 'package:flutter_checkdoc/service_locator.dart';
   import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import '../../domain/entities/upload_file_response.dart';
+
 abstract class UserRemoteData {
   Future<List<UserDocumentModel>> fetchDocuments();
   Future<void> validateDocuments();
-  Future<void> uploadDocument(UserDocumentModel document);
+  Future<UploadFileResponseModel> uploadDocument(UserDocumentModel document);
   Future<RegisterResponseModel> register(RegisterRequestModel registerRequest);
   Future<LoginResponseModel> login(LoginRequestModel loginRequest);
 }
@@ -19,24 +21,30 @@ class UserRemoteDataImpl implements UserRemoteData {
 
   @override
   Future<List<UserDocumentModel>> fetchDocuments() { 
-    return Future.value([]);
+    UserDocumentModel document = UserDocumentModel(
+      name: "Договор оферты",
+      targetClass: "contract offer",
+      content: [],
+    );
+    return Future.value([document]);
   }
   
   @override
-  Future<void> uploadDocument(UserDocumentModel document) async {
+  Future<UploadFileResponseModel> uploadDocument(UserDocumentModel document) async {
     var _dio = getIt<Dio>();
 
     // String fileName = file.path.split('/').last;
+
+    List<int> documentBytes = document.content as List<int>;
     FormData formData = FormData.fromMap({
-        "target": document.name,
-        "document":  MultipartFile.fromBytes(document.content, filename: document.name),
+        "target": document.targetClass,
+        "document":  MultipartFile.fromBytes(documentBytes, filename: document.name),
     });
     var response = await _dio.post("/v1/documents/", data: formData);
-    print(response.statusCode);
-    print(response.data);
-
-    if (response.statusCode != 200) {
-      throw ServerException('Failed to upload document');
+    if (response.statusCode == 201) {
+      return UploadFileResponseModel.fromJson(response.data);
+    } else {
+      throw ServerException('Failed to upload document ${response.statusMessage}');
     }
   }
   

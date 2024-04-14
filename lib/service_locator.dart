@@ -1,4 +1,7 @@
-// import 'package:flutter_website/presentation/bloc/login_bloc/login_bloc.dart';
+import 'package:flutter_checkdoc/domain/use_cases/fetch_documents.dart';
+import 'package:flutter_checkdoc/domain/use_cases/upload_file.dart';
+import 'package:flutter_checkdoc/presentation/bloc/login_user_bloc/login_user_bloc.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_checkdoc/data/datasources/user_remote.dart';
 import 'package:flutter_checkdoc/data/repositories/user_repository_impl.dart';
 import 'package:flutter_checkdoc/domain/repository/user_repository.dart';
@@ -8,6 +11,7 @@ import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'domain/use_cases/register_user.dart';
 import 'presentation/bloc/register_bloc/register_bloc.dart';
 
 final getIt = GetIt.instance;
@@ -17,12 +21,18 @@ Future<void> setup() async {
 
 
   // getIt.registerFactory(() => NewsBloc(getNews: getIt(), getNewsTags: getIt()));
-  getIt.registerFactory(() => DocumentListBloc());
+  getIt.registerFactory(() => DocumentListBloc(fetchDocuments: getIt()));
   getIt.registerFactory(() => RegisterBloc(registerUser: getIt()));
+  getIt.registerFactory(() => LoginUserBloc(loginUser: getIt()));
+
   // Usecases
 
   // getIt.registerLazySingleton(() => LogOut(getIt()));
   getIt.registerLazySingleton(() => LoginUser(getIt()));
+  getIt.registerLazySingleton(() => RegisterUser(getIt()));
+  getIt.registerLazySingleton(() => FetchDocuments(getIt()));
+  getIt.registerLazySingleton(() => UploadDocument(getIt()));
+
 
   // Repositories
   getIt.registerLazySingleton<UserRepository>(

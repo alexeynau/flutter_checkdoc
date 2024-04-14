@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_checkdoc/presentation/bloc/document_list_bloc/document_list_bloc.dart';
+import 'package:flutter_checkdoc/presentation/bloc/login_user_bloc/login_user_bloc.dart';
+import 'package:flutter_checkdoc/presentation/bloc/register_bloc/register_bloc.dart';
 import 'package:flutter_checkdoc/presentation/pages/auth_page.dart';
 import 'package:flutter_checkdoc/presentation/pages/registration_page.dart';
 // import 'package:flutter_website/presentation/pages/home_page.dart';
@@ -32,15 +34,22 @@ class MyApp extends StatelessWidget {
         BlocProvider<DocumentListBloc>(
           create: (context) => getIt<DocumentListBloc>(),
         ),
+        BlocProvider<RegisterBloc>(
+          create: (context) => getIt<RegisterBloc>(),
+        ),
+        BlocProvider<LoginUserBloc>(
+          create: (context) => getIt<LoginUserBloc>(),
+        ),
       ],
       child: MaterialApp(
         routes: {
-          '/user': (context) => RegistrationPage(),
-          // '/home': (context) => const HomePage(),
+          '/user': (context) => UserPage(),
+          '/register': (context) => const RegistrationPage(),
+          '/login': (context) => const AuthPage(),
           // Add more routes here
         },
         debugShowCheckedModeBanner: false,
-        initialRoute: '/user',
+        initialRoute: '/login',
         title: 'Check Doc',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

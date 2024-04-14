@@ -8,7 +8,7 @@ final class DocumentListInitial extends DocumentListState {}
 final class DocumentListLoading extends DocumentListState {}
 
 final class DocumentListLoaded extends DocumentListState {
-  final List<String> documents;
+  final List<UserDocument> documents;
 
   DocumentListLoaded(this.documents);
 }

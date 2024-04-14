@@ -6,15 +6,16 @@ import 'package:flutter_checkdoc/domain/entities/document.dart';
 import 'package:flutter_checkdoc/domain/repository/user_repository.dart';
 
 import '../../common/errors/failures.dart';
+import '../entities/upload_file_response.dart';
 import 'use_case.dart';
 
-class UploadDocument extends UseCase<void, UploadDocumentParams> {
+class UploadDocument extends UseCase<UploadFileResponse, UploadDocumentParams> {
   final UserRepository userRepository;
 
   UploadDocument(this.userRepository);
 
   @override
-  Future<Either<Failure, void>> call(UploadDocumentParams params) async {
+  Future<Either<Failure, UploadFileResponse>> call(UploadDocumentParams params) async {
     return await userRepository.uploadDocument(params.document);
   }
 }
