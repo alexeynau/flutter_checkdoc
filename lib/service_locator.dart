@@ -1,5 +1,6 @@
 import 'package:flutter_checkdoc/domain/use_cases/fetch_documents.dart';
 import 'package:flutter_checkdoc/domain/use_cases/upload_file.dart';
+import 'package:flutter_checkdoc/domain/use_cases/validate_document.dart';
 import 'package:flutter_checkdoc/presentation/bloc/login_user_bloc/login_user_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_checkdoc/data/datasources/user_remote.dart';
@@ -16,22 +17,34 @@ import 'presentation/bloc/register_bloc/register_bloc.dart';
 
 final getIt = GetIt.instance;
 
+  class GlobalVariables {
+    static final GlobalVariables _instance = GlobalVariables._internal();
+
+    factory GlobalVariables() {
+      return _instance;
+    }
+
+    GlobalVariables._internal();
+
+    String globalVariable = 'Hello, world!';
+  }
 Future<void> setup() async {
 
+  final globalVariables = GlobalVariables();
+  getIt.registerSingleton<GlobalVariables>(globalVariables);
 
 
-  // getIt.registerFactory(() => NewsBloc(getNews: getIt(), getNewsTags: getIt()));
-  getIt.registerFactory(() => DocumentListBloc(fetchDocuments: getIt()));
-  getIt.registerFactory(() => RegisterBloc(registerUser: getIt()));
   getIt.registerFactory(() => LoginUserBloc(loginUser: getIt()));
-
+  getIt.registerFactory(() => RegisterBloc(registerUser: getIt()));
+  getIt.registerFactory(() => DocumentListBloc(fetchDocuments: getIt()));
   // Usecases
 
-  // getIt.registerLazySingleton(() => LogOut(getIt()));
   getIt.registerLazySingleton(() => LoginUser(getIt()));
   getIt.registerLazySingleton(() => RegisterUser(getIt()));
   getIt.registerLazySingleton(() => FetchDocuments(getIt()));
   getIt.registerLazySingleton(() => UploadDocument(getIt()));
+  getIt.registerLazySingleton(() => ValidateDocument( userRepository: getIt()));
+  
 
 
   // Repositories
@@ -40,12 +53,6 @@ Future<void> setup() async {
       remoteDataSource: getIt(),
     ),
   );
-
-
-  // getIt.registerLazySingleton<UserLocalData>(() => UserLocalDataImpl(
-  //     sharedPreferences: getIt(),
-  //     secureStorage: getIt(),
-  //     oauthHelper: getIt<LksOauth2>().oauth2Helper));
 
   getIt.registerLazySingleton<UserRemoteData>(
       () => UserRemoteDataImpl());
@@ -56,17 +63,5 @@ Future<void> setup() async {
   // External Dependency
   final dio = Dio(BaseOptions(receiveTimeout: const Duration(seconds: 30) , baseUrl: dotenv.env['URL']!));
   getIt.registerLazySingleton(() => dio);
-  // final sharedPreferences = await SharedPreferences.getInstance();
-  // getIt.registerLazySingleton(() => sharedPreferences);
-  // const secureStorage = FlutterSecureStorage(
-  //     aOptions: AndroidOptions(
-  //   encryptedSharedPreferences: true,
-  // ));
-  // getIt.registerLazySingleton(() => secureStorage);
-  // getIt.registerLazySingleton(() => InternetConnectionChecker.getInstance());
-  // final PackageInfo packageInfo = await PackageInfo.fromPlatform();
-  // getIt.registerLazySingleton(() => packageInfo);
-  // getIt.registerLazySingleton(() => LksOauth2());
-  // final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-  // getIt.registerLazySingleton(() => deviceInfo);
+
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_checkdoc/presentation/bloc/register_bloc/register_bloc.dart';
+import 'package:flutter_checkdoc/service_locator.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -28,6 +29,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
         listener: (context, state) {
           if (state is RegisterSuccess) {
             // Navigate to the home page or any other page after successful loginLoginFailure
+            String sessionId = state.registerResponse.id;
+            getIt<GlobalVariables>().globalVariable = sessionId;
             Navigator.of(context).pushReplacementNamed('/login');
           } else if (state is RegisterFailure) {
             // Show an error message to the user

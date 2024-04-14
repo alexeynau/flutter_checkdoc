@@ -6,9 +6,9 @@ import 'package:flutter_checkdoc/service_locator.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
 
 import '../../domain/entities/document.dart';
+import '../../domain/use_cases/validate_document.dart';
 
 class DropzoneWidget extends StatefulWidget {
-
   String target_class;
 
   DropzoneWidget({required this.target_class});
@@ -106,6 +106,8 @@ class _DropzoneWidgetState extends State<DropzoneWidget> {
 
   Future acceptFile(dynamic event) async {
     final UploadDocument uploadDocument = UploadDocument(getIt());
+    final ValidateDocument validateDocument =
+        ValidateDocument(userRepository: getIt());
     setState(() {
       isHovered = false;
     });
@@ -115,7 +117,12 @@ class _DropzoneWidgetState extends State<DropzoneWidget> {
     final url = await controller.createFileUrl(event);
     final data = await controller.getFileData(event);
 
-    uploadDocument(UploadDocumentParams(
+    print('Name: $name');
+    print('Mime: $mime');
+    print('Bytes: $bytes');
+    print('Url: $url');
+
+    final uploaded = await uploadDocument(UploadDocumentParams(
       document: UserDocument(
         name: name,
         targetClass: widget.target_class,
@@ -123,11 +130,37 @@ class _DropzoneWidgetState extends State<DropzoneWidget> {
       ),
     ));
 
-    print('Name: $name');
-    print('Mime: $mime');
-    print('Bytes: $bytes');
-    print('Url: $url');
+    if (uploaded.isRight()) {
+      // polling logic
+      bool getValidation = false;
 
-    
+      while (!getValidation) {
+        final toValidate = await validateDocument(
+          ValidateDocumentParams(
+            docId: uploaded.fold((l) => '', (r) => r.docId),
+          ),
+        );
+
+        if (toValidate.isRight()) {
+          toValidate.fold((l) => null, (r) {
+            if (r.verified != null) {
+              if (r.verified!) {
+                getValidation = true;
+                setState(() {
+                  isReady = true;
+                });
+              } else {
+                // To do: handle failed validation
+                getValidation = false;
+              }
+            }
+          });
+        } else {
+          await Future.delayed(const Duration(seconds: 1));
+        }
+      }
+    } else {
+      print('Error: ${uploaded.fold((l) => l.cause, (r) => '')}');
+    }
   }
 }

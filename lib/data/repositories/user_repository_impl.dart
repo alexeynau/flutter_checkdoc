@@ -9,6 +9,7 @@ import 'package:flutter_checkdoc/domain/entities/login_request.dart';
 import 'package:flutter_checkdoc/domain/entities/login_response.dart';
 import 'package:flutter_checkdoc/domain/entities/register_request.dart';
 import 'package:flutter_checkdoc/domain/entities/register_response.dart';
+import 'package:flutter_checkdoc/domain/entities/validate_response.dart';
 
 import '../../domain/entities/upload_file_response.dart';
 import '../../domain/repository/user_repository.dart';
@@ -45,9 +46,14 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Either<Failure, String>> validateDocuments() {
-    // TODO: implement validateDocuments
-    throw UnimplementedError();
+  Future<Either<Failure, ValidateResponse>> validateDocument(String docId) {
+    try {
+      return remoteDataSource
+          .validateDocuments(docId)
+          .then((value) => Right(value));
+    } on Exception {
+      return Future.value(const Left(ServerFailure()));
+    }
   }
 
   @override
