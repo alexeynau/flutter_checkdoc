@@ -26,7 +26,7 @@ class GlobalVariables {
 
   GlobalVariables._internal();
 
-  String globalVariable = 'Hello, world!';
+  String globalVariable = '1e24c826-b3f6-45cb-9b89-e61aff0bc6b0';
 }
 
 Future<void> setup() async {

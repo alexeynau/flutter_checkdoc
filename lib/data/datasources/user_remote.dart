@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
@@ -35,25 +36,32 @@ class UserRemoteDataImpl implements UserRemoteData {
 
   @override
   Future<UploadFileResponseModel> uploadDocument(
-      UserDocumentModel document) async {
+      UserDocumentModel userDocument) async {
+    // final cookie = document.cookie!;
+    // final entity = cookie.split("; ").map((item) {
+    //   final split = item.split("=");
+    //   return MapEntry(split[0], split[1]);
+    // });
+    // final cookieMap = Map.fromEntries(entity);
+
+    document.cookie = "docs-class=1e24c826-b3f6-45cb-9b89-e61aff0bc6b0";
     var _dio = getIt<Dio>();
 
     // String fileName = file.path.split('/').last;
     print(session);
-    List<int> documentBytes = document.content as List<int>;
+    List<int> documentBytes = userDocument.content as List<int>;
     FormData formData = FormData.fromMap({
-      "target": document.targetClass,
+      "target": userDocument.targetClass,
       "document":
-          MultipartFile.fromBytes(documentBytes, filename: document.name),
+          MultipartFile.fromBytes(documentBytes, filename: userDocument.name),
     });
-    
+
     var response = await _dio.post(
       "/v1/documents/",
       data: formData,
       options: Options(
         headers: {
           "Content-Type": "multipart/form-data",
-          "Cookie": "docs-class=$session",
         },
       ),
     );
@@ -77,7 +85,6 @@ class UserRemoteDataImpl implements UserRemoteData {
       options: Options(
         headers: {
           "Content-Type": "application/json",
-          "Cookie": "docs-class=$session",
         },
       ),
     )
@@ -125,7 +132,6 @@ class UserRemoteDataImpl implements UserRemoteData {
       ),
     )
         .then((response) {
-
       if (response.statusCode == 200 || response.statusCode == 204) {
         // return LoginResponseModel.fromJson(response.data);
         return LoginResponseModel(token: "", refreshToken: "");
