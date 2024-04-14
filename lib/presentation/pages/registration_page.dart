@@ -167,6 +167,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     width: 398,
                     height: 52,
                     child: ElevatedButton(
+                      style: ButtonStyle(   
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                                side: BorderSide(color: Color(0xFF7700FF)))),
+                        backgroundColor: MaterialStatePropertyAll(Color(0xFF7700FF)),
+                        overlayColor: MaterialStatePropertyAll(
+                            Color.fromARGB(255, 153, 74, 243)),
+                      ),
                       onPressed: () {
                         // ignore: avoid_print
                         if (_passwordController.text ==
