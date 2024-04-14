@@ -2,7 +2,7 @@ import 'package:flutter_checkdoc/domain/use_cases/fetch_documents.dart';
 import 'package:flutter_checkdoc/domain/use_cases/upload_file.dart';
 import 'package:flutter_checkdoc/domain/use_cases/validate_document.dart';
 import 'package:flutter_checkdoc/presentation/bloc/login_user_bloc/login_user_bloc.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:flutter_checkdoc/data/datasources/user_remote.dart';
 import 'package:flutter_checkdoc/data/repositories/user_repository_impl.dart';
 import 'package:flutter_checkdoc/domain/repository/user_repository.dart';

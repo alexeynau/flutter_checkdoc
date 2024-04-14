@@ -4,18 +4,12 @@ import '../../domain/entities/register_response.dart';
 
 class RegisterRequestModel extends RegisterRequest {
    RegisterRequestModel({
-    required password,
-    required email,
-    required isActive,
-    required isSuperuser,
-    required isVerified,
-  }) : super(
-          password: password,
-          email: email,
-          isActive: isActive,
-          isSuperuser: isSuperuser,
-          isVerified: isVerified,
-        );
+    required super.password,
+    required super.email,
+    required super.isActive,
+    required super.isSuperuser,
+    required super.isVerified,
+  });
   factory RegisterRequestModel.fromRawJson(String str) =>
       RegisterRequestModel.fromJson(json.decode(str));
 
@@ -42,21 +36,14 @@ class RegisterRequestModel extends RegisterRequest {
 }
 
 class RegisterResponseModel extends RegisterResponse {
-  RegisterResponseModel({
-    required id,
-    required email,
-    required isActive,
-    required isSuperuser,
-    required isVerified,
-    required balance,
-  }) : super(
-          id: id,
-          email: email,
-          isActive: isActive,
-          isSuperuser: isSuperuser,
-          isVerified: isVerified,
-          balance: balance,
-        );
+  const RegisterResponseModel({
+    required super.id,
+    required super.email,
+    required super.isActive,
+    required super.isSuperuser,
+    required super.isVerified,
+    required super.balance,
+  });
 
   factory RegisterResponseModel.fromRawJson(String str) =>
       RegisterResponseModel.fromJson(json.decode(str));

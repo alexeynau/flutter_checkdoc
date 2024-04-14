@@ -1,4 +1,7 @@
+
+
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_checkdoc/common/errors/exceptions.dart';
 import 'package:flutter_checkdoc/data/model/document_model.dart';
 import 'package:flutter_checkdoc/data/model/login.dart';
@@ -6,6 +9,8 @@ import 'package:flutter_checkdoc/data/model/register_model.dart';
 import 'package:flutter_checkdoc/data/model/validate_response_model.dart';
 import 'package:flutter_checkdoc/service_locator.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import '../model/upload_file_response_model.dart';
 
 abstract class UserRemoteData {
   Future<List<UserDocumentModel>> fetchDocuments();
@@ -24,7 +29,7 @@ class UserRemoteDataImpl implements UserRemoteData {
     UserDocumentModel document = UserDocumentModel(
       name: "Договор оферты",
       targetClass: "contract offer",
-      content: const [],
+      content: Uint8List(0),
     );
     return Future.value([document]);
   }

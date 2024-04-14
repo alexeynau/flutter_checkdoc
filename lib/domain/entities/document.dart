@@ -17,5 +17,6 @@ class UserDocument extends Equatable {
   List<Object?> get props => [
         name,
         content,
+        targetClass,
       ];
 }

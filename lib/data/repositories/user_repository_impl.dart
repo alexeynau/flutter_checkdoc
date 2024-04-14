@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 
 import 'package:flutter_checkdoc/common/errors/failures.dart';
 import 'package:flutter_checkdoc/data/model/document_model.dart';
+import 'package:flutter_checkdoc/data/model/login.dart';
 import 'package:flutter_checkdoc/data/model/register_model.dart';
 
 import 'package:flutter_checkdoc/domain/entities/document.dart';
@@ -23,8 +24,13 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<Either<Failure, List<UserDocument>>> fetchDocuments() {
-    // TODO: implement fetchDocuments
-    throw UnimplementedError();
+    try {
+      return remoteDataSource
+          .fetchDocuments()
+          .then((value) => Right(value));
+    } on Exception {
+      return Future.value(const Left(ServerFailure()));
+    }
   }
 
   @override
@@ -77,8 +83,18 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<Either<Failure, LoginResponse>> login(LoginRequest loginRequest) {
-    // TODO: implement login
-    throw UnimplementedError();
+    LoginRequestModel loginRequestModel = LoginRequestModel(
+      username: loginRequest.username,
+      password: loginRequest.password,
+    );
+
+    try {
+      return remoteDataSource
+          .login(loginRequestModel)
+          .then((value) => Right(value));
+    } on Exception {
+      return Future.value(const Left(ServerFailure()));
+    }
   }
   // final UserLocalData localDataSource;
   // final InternetConnectionChecker connectionChecker;

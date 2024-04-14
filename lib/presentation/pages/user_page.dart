@@ -53,7 +53,7 @@ class UserPage extends StatelessWidget {
                                 children: [
                                   Text(state.documents[index].name),
                                   DropzoneWidget(
-                                    target_class: state.documents[index].targetClass,
+                                    targetClass: state.documents[index].targetClass,
                                   )
                                 ],
                               ),

@@ -8,7 +8,7 @@ class LoginRequest extends Equatable{
   final String clientId;
   final String clientSecret;
 
-  LoginRequest({
+  const LoginRequest({
     this.grantType = '',
     required this.username,
     required this.password,

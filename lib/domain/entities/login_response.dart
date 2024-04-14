@@ -4,7 +4,7 @@ class LoginResponse extends Equatable{
   final String token;
   final String refreshToken;
 
-  LoginResponse({required this.token, required this.refreshToken});
+  const LoginResponse({required this.token, required this.refreshToken});
   
   @override
   // TODO: implement props

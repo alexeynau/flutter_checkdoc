@@ -5,15 +5,13 @@ import 'package:flutter_checkdoc/domain/entities/login_response.dart';
 class LoginRequestModel extends LoginRequest {
   LoginRequestModel({
     grantType,
-    required username,
-    required password,
+    required super.username,
+    required super.password,
     scope ,
     clientId,
     clientSecret,
   }) : super(
           grantType: grantType,
-          username: username,
-          password: password,
           scope: scope,
           clientId: clientId,
           clientSecret: clientSecret,

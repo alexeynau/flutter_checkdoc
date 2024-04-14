@@ -16,7 +16,7 @@ class DocumentListBloc extends Bloc<DocumentListEvent, DocumentListState> {
         // Perform the logic here
         // You can use services or APIs to fetch data
         // Simulating a delay for demonstration purposes
-        fetchDocuments(FetchDocumentsParams())
+        fetchDocuments(const FetchDocumentsParams())
             .then((response) {
           response.fold(
             (failure) => emit(DocumentListError(failure.toString())),

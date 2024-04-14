@@ -1,6 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_checkdoc/domain/use_cases/upload_file.dart';
 import 'package:flutter_checkdoc/service_locator.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
@@ -9,9 +8,9 @@ import '../../domain/entities/document.dart';
 import '../../domain/use_cases/validate_document.dart';
 
 class DropzoneWidget extends StatefulWidget {
-  String target_class;
+  String targetClass;
 
-  DropzoneWidget({required this.target_class});
+  DropzoneWidget({required this.targetClass});
   @override
   _DropzoneWidgetState createState() => _DropzoneWidgetState();
 }
@@ -33,8 +32,8 @@ class _DropzoneWidgetState extends State<DropzoneWidget> {
         child: DottedBorder(
           borderType: BorderType.RRect,
           color: const Color.fromARGB(255, 0, 0, 0),
-          radius: Radius.circular(10),
-          borderPadding: EdgeInsets.all(10),
+          radius: const Radius.circular(10),
+          borderPadding: const EdgeInsets.all(10),
           padding: EdgeInsets.zero,
           child: Stack(
             children: [
@@ -105,9 +104,8 @@ class _DropzoneWidgetState extends State<DropzoneWidget> {
   }
 
   Future acceptFile(dynamic event) async {
-    final UploadDocument uploadDocument = UploadDocument(getIt());
-    final ValidateDocument validateDocument =
-        ValidateDocument(userRepository: getIt());
+    final UploadDocument uploadDocument = getIt.get<UploadDocument>();
+    final ValidateDocument validateDocument = getIt.get<ValidateDocument>();
     setState(() {
       isHovered = false;
     });
@@ -125,7 +123,7 @@ class _DropzoneWidgetState extends State<DropzoneWidget> {
     final uploaded = await uploadDocument(UploadDocumentParams(
       document: UserDocument(
         name: name,
-        targetClass: widget.target_class,
+        targetClass: widget.targetClass,
         content: data,
       ),
     ));
