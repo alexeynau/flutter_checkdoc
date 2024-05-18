@@ -23,7 +23,7 @@ class _AuthPageState extends State<AuthPage> {
         listener: (context, state) {
           if (state is LoginUserSuccess) {
             // Navigate to the home page or any other page after successful loginLoginFailure
-            Navigator.of(context).pushReplacementNamed('/user');
+            Navigator.of(context).pushReplacementNamed('/records');
           } else if (state is LoginUserFailure) {
             // Show an error message to the user
             ScaffoldMessenger.of(context).showSnackBar(
@@ -35,9 +35,10 @@ class _AuthPageState extends State<AuthPage> {
           builder: (context, state) {
             return Center(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text(
-                    "Authorization",
+                    "Авторизация",
                     style: TextStyle(
                       fontSize: 18,
                       height: 1.5,
@@ -111,11 +112,14 @@ class _AuthPageState extends State<AuthPage> {
                     height: 52,
                     child: ElevatedButton(
                       style: ButtonStyle(
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                                side: BorderSide(color: Color(0xFF7700FF)))),
-                        backgroundColor: MaterialStatePropertyAll(Color(0xFF7700FF)),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    side:
+                                        BorderSide(color: Color(0xFF7700FF)))),
+                        backgroundColor:
+                            MaterialStatePropertyAll(Color(0xFF7700FF)),
                         overlayColor: MaterialStatePropertyAll(
                             Color.fromARGB(255, 153, 74, 243)),
                       ),
@@ -124,10 +128,10 @@ class _AuthPageState extends State<AuthPage> {
                         print(
                             "${_emailController.text}  ${_passwordController.text}"); //TODO Леха Сюда запрос на авторизацию
 
-                            loginUserBloc.add(LoginEvent(
-                              email: _emailController.text,
-                              password: _passwordController.text,
-                            ));
+                        loginUserBloc.add(LoginEvent(
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                        ));
                       },
                       child: Container(
                         margin: const EdgeInsets.only(right: 25),
@@ -150,16 +154,22 @@ class _AuthPageState extends State<AuthPage> {
                       ),
                     ),
                   ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   SizedBox(
                     width: 398,
                     height: 52,
                     child: ElevatedButton(
                       style: ButtonStyle(
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                                side: BorderSide(color: Color(0xFF7700FF)))),
-                        backgroundColor: MaterialStatePropertyAll(Color(0xFF7700FF)),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    side:
+                                        BorderSide(color: Color(0xFF7700FF)))),
+                        backgroundColor:
+                            MaterialStatePropertyAll(Color(0xFF7700FF)),
                         overlayColor: MaterialStatePropertyAll(
                             Color.fromARGB(255, 153, 74, 243)),
                       ),
@@ -192,7 +202,7 @@ class _AuthPageState extends State<AuthPage> {
                     const Center(
                       child: CircularProgressIndicator(),
                     ),
-                ],  
+                ],
               ),
             );
           },

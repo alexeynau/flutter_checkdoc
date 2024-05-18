@@ -1,23 +1,18 @@
 import 'package:equatable/equatable.dart';
 
-class LoginRequest extends Equatable{
-  final String? grantType;
-  final String username;
+class LoginRequest extends Equatable {
+  final String email;
   final String password;
-  final String? scope;
-  final String? clientId;
-  final String? clientSecret;
 
   const LoginRequest({
-    this.grantType = '',
-    required this.username,
+    required this.email,
     required this.password,
-    this.scope = '',
-    this.clientId = '',
-    this.clientSecret = '',
   });
-  
+
   @override
   // TODO: implement props
-  List<Object?> get props => [grantType, username, password, scope, clientId, clientSecret];
+  List<Object?> get props => [
+        password,
+        email,
+      ];
 }

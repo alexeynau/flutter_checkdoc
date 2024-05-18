@@ -26,7 +26,7 @@ class GlobalVariables {
 
   GlobalVariables._internal();
 
-  String globalVariable = '1e24c826-b3f6-45cb-9b89-e61aff0bc6b0';
+  String accessToken = '1e24c826-b3f6-45cb-9b89-e61aff0bc6b0';
 }
 
 Future<void> setup() async {
@@ -58,13 +58,6 @@ Future<void> setup() async {
   // External Dependency
   final dio = Dio(BaseOptions(
     receiveTimeout: const Duration(seconds: 30),
-    headers: {
-      // "Access-Control-Allow-Headers":
-      //     "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Access-Control-Allow-Methods, Access-Control-Allow-Origin, Access-Control-Allow-Credentials",
-      "Access-Control-Allow-Origin": "*",
-      // "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE, HEAD",
-      // "Access-Control-Allow-Credentials": "true",
-    },
   ));
   getIt.registerLazySingleton(() => dio);
 }

@@ -32,8 +32,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
           if (state is RegisterSuccess) {
             // Navigate to the home page or any other page after successful loginLoginFailure
             String accessToken = state.registerResponse.access_token;
-            getIt<GlobalVariables>().globalVariable = accessToken;
-            Navigator.of(context).pushReplacementNamed('/login');
+            getIt<GlobalVariables>().accessToken = accessToken;
+            Navigator.of(context).pushReplacementNamed('/records');
           } else if (state is RegisterFailure) {
             // Show an error message to the user
             ScaffoldMessenger.of(context).showSnackBar(

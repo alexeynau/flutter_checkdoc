@@ -23,7 +23,7 @@ abstract class UserRemoteData {
 class UserRemoteDataImpl implements UserRemoteData {
   String? url = dotenv.env['URL'];
   String? authUrl = dotenv.env['AUTH_SERVICE'];
-  String? session = getIt<GlobalVariables>().globalVariable;
+  String? accessToken = getIt<GlobalVariables>().accessToken;
 
   @override
   Future<List<UserDocumentModel>> fetchDocuments() {
@@ -38,18 +38,9 @@ class UserRemoteDataImpl implements UserRemoteData {
   @override
   Future<UploadFileResponseModel> uploadDocument(
       UserDocumentModel userDocument) async {
-    // final cookie = document.cookie!;
-    // final entity = cookie.split("; ").map((item) {
-    //   final split = item.split("=");
-    //   return MapEntry(split[0], split[1]);
-    // });
-    // final cookieMap = Map.fromEntries(entity);
-
-    document.cookie = "docs-class=1e24c826-b3f6-45cb-9b89-e61aff0bc6b0";
     var _dio = getIt<Dio>();
 
-    // String fileName = file.path.split('/').last;
-    print(session);
+    print(accessToken);
     List<int> documentBytes = userDocument.content as List<int>;
     FormData formData = FormData.fromMap({
       "target": userDocument.targetClass,
@@ -58,11 +49,12 @@ class UserRemoteDataImpl implements UserRemoteData {
     });
 
     var response = await _dio.post(
-      "/v1/documents/",
+      "${url}v1/documents/",
       data: formData,
       options: Options(
         headers: {
           "Content-Type": "multipart/form-data",
+          "Authorization": "Bearer $accessToken",
         },
       ),
     );
@@ -130,7 +122,7 @@ class UserRemoteDataImpl implements UserRemoteData {
 
   @override
   Future<LoginResponseModel> login(LoginRequestModel loginRequest) {
-    String endpoint = "/v1/auth/login/";
+    String endpoint = "${authUrl}auth/login";
 
     var _dio = getIt<Dio>();
     print(loginRequest.toJson().toString());
@@ -146,8 +138,7 @@ class UserRemoteDataImpl implements UserRemoteData {
     )
         .then((response) {
       if (response.statusCode == 200 || response.statusCode == 204) {
-        // return LoginResponseModel.fromJson(response.data);
-        return LoginResponseModel(token: "", refreshToken: "");
+        return LoginResponseModel.fromJson(response.data);
       } else {
         throw ServerException('Failed to login ${response.statusMessage}');
       }

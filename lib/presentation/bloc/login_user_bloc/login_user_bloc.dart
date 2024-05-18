@@ -12,17 +12,13 @@ part 'login_user_state.dart';
 class LoginUserBloc extends Bloc<LoginUserEvent, LoginUserState> {
   final LoginUser loginUser;
   LoginUserBloc({required this.loginUser}) : super(LoginUserInitial()) {
-    on<LoginEvent>((event, emit) async{
+    on<LoginEvent>((event, emit) async {
       emit(LoginUserLoading());
       // Perform the login logic here
       // Replace the code below with your actual login logic
       LoginRequest loginRequest = LoginRequest(
-        grantType: "",
-        username: event.email,
+        email: event.email,
         password: event.password,
-        scope: "",
-        clientId: "",
-        clientSecret: "",
       );
 
       await loginUser(LoginUserParams(loginRequest: loginRequest))

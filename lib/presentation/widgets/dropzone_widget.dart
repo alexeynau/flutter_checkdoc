@@ -58,21 +58,21 @@ class _DropzoneWidgetState extends State<DropzoneWidget> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            Icons.upload_file,
+                            Icons.audio_file_outlined,
                             size: 100,
                             color: Color.fromARGB(255, 0, 0, 0),
                           ),
                           Column(
                             children: [
                               Text(
-                                'Загрузите файл',
+                                'Загрузите аудиофайл',
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 0, 0, 0),
                                   fontSize: 16,
                                 ),
                               ),
                               Text(
-                                '(.pdf, .docx, .xls)',
+                                '(.wav)',
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 0, 0, 0),
                                   fontSize: 16,
@@ -135,7 +135,7 @@ class _DropzoneWidgetState extends State<DropzoneWidget> {
       ),
     ));
 
-    if (uploaded.isRight()) { 
+    if (uploaded.isRight()) {
       bool getValidation = false;
 
       while (!getValidation) {
