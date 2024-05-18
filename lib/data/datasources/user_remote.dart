@@ -100,30 +100,32 @@ class UserRemoteDataImpl implements UserRemoteData {
   }
 
   @override
-  Future<RegisterResponseModel> register(RegisterRequestModel registerRequest) {
-    String endpoint = "${authUrl}auth/register/";
+  Future<RegisterResponseModel> register(
+      RegisterRequestModel registerRequest) async {
+    String endpoint = "${authUrl}auth/register";
 
     var _dio = getIt<Dio>();
 
-    return _dio
-        .post(
-      endpoint,
-      data: registerRequest.toFormUrlEncoded(),
-      options: Options(
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      ),
-    )
-        .then((response) {
-      print(response.statusCode);
-      print(response.data);
-      if (response.statusCode == 200) {
+    try {
+      var response = await _dio.post(
+        endpoint,
+        data: registerRequest.toFormUrlEncoded(),
+        options: Options(
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        ),
+      );
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        print(response.data.toString());
         return RegisterResponseModel.fromJson(response.data);
-      } else {
-        throw ServerException('Failed to register ${response.statusMessage}');
       }
-    });
+    } catch (e) {
+      print(e);
+      throw ServerException('Failed to register ${e}');
+    }
+
+    throw ServerException('Failed to register'); // Add this line
   }
 
   @override

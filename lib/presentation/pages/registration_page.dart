@@ -15,6 +15,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   bool isObscureSec = true;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _passwordControllerConfirm =
       TextEditingController();
@@ -84,6 +85,25 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         prefix: Text("   "),
                         hintStyle: TextStyle(fontSize: 18, height: 1.5),
                         hintText: "E-mail",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    width: 398,
+                    height: 52,
+                    child: TextField(
+                      controller: _phoneNumberController,
+                      style: const TextStyle(fontSize: 18, height: 1.5),
+                      decoration: const InputDecoration(
+                        prefix: Text("   "),
+                        hintStyle: TextStyle(fontSize: 18, height: 1.5),
+                        hintText: "Номер телефона",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(30)),
                         ),
@@ -203,13 +223,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         // ignore: avoid_print
                         if (_passwordController.text ==
                             _passwordControllerConfirm.text) {
-                          //TODO Леха Сюда запрос на регистррацию
                           registerBloc.add(RegisterUserEvent(
                             email: _emailController.text,
                             password: _passwordController.text,
                             name: _nameController.text,
-                            phone_number: '',
-                            phone_number_code: '',
+                            phone_number:
+                                _phoneNumberController.text.substring(1),
+                            phone_number_code:
+                                _phoneNumberController.text[0] == '8'
+                                    ? '7'
+                                    : _phoneNumberController.text[0],
                           ));
                         } else {
                           setState(() {
