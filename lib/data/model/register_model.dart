@@ -3,12 +3,12 @@ import '../../domain/entities/register_request.dart';
 import '../../domain/entities/register_response.dart';
 
 class RegisterRequestModel extends RegisterRequest {
-   RegisterRequestModel({
-    required super.password,
+  RegisterRequestModel({
     required super.email,
-    required super.isActive,
-    required super.isSuperuser,
-    required super.isVerified,
+    required super.password,
+    required super.name,
+    required super.phone_number,
+    required super.phone_number_code,
   });
   factory RegisterRequestModel.fromRawJson(String str) =>
       RegisterRequestModel.fromJson(json.decode(str));
@@ -17,9 +17,9 @@ class RegisterRequestModel extends RegisterRequest {
     return RegisterRequestModel(
       password: json["password"],
       email: json["email"],
-      isActive: json["is_active"],
-      isSuperuser: json["is_superuser"],
-      isVerified: json["is_verified"],
+      name: json["name"],
+      phone_number: json["phone_number"],
+      phone_number_code: json["phone_number_code"],
     );
   }
 
@@ -27,22 +27,21 @@ class RegisterRequestModel extends RegisterRequest {
     return {
       "password": password,
       "email": email,
-      "is_active": isActive,
-      "is_superuser": isSuperuser,
-      "is_verified": isVerified,
+      "name": name,
+      "phone_number": phone_number,
+      "phone_number_code": phone_number_code,
     };
   }
 
+  String toFormUrlEncoded() {
+    return "email=$email&password=$password&name=$name&phone_number=$phone_number&phone_number_code=$phone_number_code";
+  }
 }
 
 class RegisterResponseModel extends RegisterResponse {
   const RegisterResponseModel({
-    required super.id,
-    required super.email,
-    required super.isActive,
-    required super.isSuperuser,
-    required super.isVerified,
-    required super.balance,
+    required super.access_token,
+    required super.refresh_token,
   });
 
   factory RegisterResponseModel.fromRawJson(String str) =>
@@ -50,23 +49,15 @@ class RegisterResponseModel extends RegisterResponse {
 
   factory RegisterResponseModel.fromJson(Map<String, dynamic> json) {
     return RegisterResponseModel(
-      id: json["id"],
-      email: json["email"],
-      isActive: json["is_active"],
-      isSuperuser: json["is_superuser"],
-      isVerified: json["is_verified"],
-      balance: json["balance"],
+      access_token: json["access_token"],
+      refresh_token: json["refresh_token"],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "id": id,
-      "email": email,
-      "is_active": isActive,
-      "is_superuser": isSuperuser,
-      "is_verified": isVerified,
-      "balance": balance,
+      "access_token": access_token,
+      "refresh_token": refresh_token,
     };
   }
-} 
+}

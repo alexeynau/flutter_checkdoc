@@ -22,6 +22,7 @@ abstract class UserRemoteData {
 
 class UserRemoteDataImpl implements UserRemoteData {
   String? url = dotenv.env['URL'];
+  String? authUrl = dotenv.env['AUTH_SERVICE'];
   String? session = getIt<GlobalVariables>().globalVariable;
 
   @override
@@ -100,14 +101,24 @@ class UserRemoteDataImpl implements UserRemoteData {
 
   @override
   Future<RegisterResponseModel> register(RegisterRequestModel registerRequest) {
-    String endpoint = "/v1/auth/register/";
+    String endpoint = "${authUrl}auth/register/";
 
     var _dio = getIt<Dio>();
 
-    return _dio.post(endpoint, data: registerRequest.toJson()).then((response) {
+    return _dio
+        .post(
+      endpoint,
+      data: registerRequest.toFormUrlEncoded(),
+      options: Options(
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      ),
+    )
+        .then((response) {
       print(response.statusCode);
       print(response.data);
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         return RegisterResponseModel.fromJson(response.data);
       } else {
         throw ServerException('Failed to register ${response.statusMessage}');

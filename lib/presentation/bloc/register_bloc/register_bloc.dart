@@ -16,9 +16,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       RegisterRequest registerRequest = RegisterRequest(
         email: event.email,
         password: event.password,
-        isActive: true,
-        isSuperuser: false,
-        isVerified: true,
+        name: event.name,
+        phone_number: event.phone_number,
+        phone_number_code: event.phone_number_code,
       );
       await registerUser(RegisterUserParams(registerRequest: registerRequest))
           .then((response) {

@@ -14,6 +14,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   bool isObscure = true;
   bool isObscureSec = true;
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _passwordControllerConfirm =
       TextEditingController();
@@ -29,8 +30,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
         listener: (context, state) {
           if (state is RegisterSuccess) {
             // Navigate to the home page or any other page after successful loginLoginFailure
-            String sessionId = state.registerResponse.id;
-            getIt<GlobalVariables>().globalVariable = sessionId;
+            String accessToken = state.registerResponse.access_token;
+            getIt<GlobalVariables>().globalVariable = accessToken;
             Navigator.of(context).pushReplacementNamed('/login');
           } else if (state is RegisterFailure) {
             // Show an error message to the user
@@ -45,10 +46,29 @@ class _RegistrationPageState extends State<RegistrationPage> {
               child: Column(
                 children: [
                   const Text(
-                    "Registration",
+                    "Регистрация",
                     style: TextStyle(
                       fontSize: 18,
                       height: 1.5,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: 398,
+                    height: 52,
+                    child: TextField(
+                      controller: _nameController,
+                      style: const TextStyle(fontSize: 18, height: 1.5),
+                      decoration: const InputDecoration(
+                        prefix: Text("   "),
+                        hintStyle: TextStyle(fontSize: 18, height: 1.5),
+                        hintText: "Имя",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                        ),
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -167,12 +187,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     width: 398,
                     height: 52,
                     child: ElevatedButton(
-                      style: ButtonStyle(   
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                                side: BorderSide(color: Color(0xFF7700FF)))),
-                        backgroundColor: MaterialStatePropertyAll(Color(0xFF7700FF)),
+                      style: ButtonStyle(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    side:
+                                        BorderSide(color: Color(0xFF7700FF)))),
+                        backgroundColor:
+                            MaterialStatePropertyAll(Color(0xFF7700FF)),
                         overlayColor: MaterialStatePropertyAll(
                             Color.fromARGB(255, 153, 74, 243)),
                       ),
@@ -181,10 +204,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         if (_passwordController.text ==
                             _passwordControllerConfirm.text) {
                           //TODO Леха Сюда запрос на регистррацию
-                            registerBloc.add(RegisterUserEvent(
-                              email: _emailController.text,
-                              password: _passwordController.text,
-                            ));
+                          registerBloc.add(RegisterUserEvent(
+                            email: _emailController.text,
+                            password: _passwordController.text,
+                            name: _nameController.text,
+                            phone_number: '',
+                            phone_number_code: '',
+                          ));
                         } else {
                           setState(() {
                             passErr = true;

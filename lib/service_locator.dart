@@ -57,11 +57,14 @@ Future<void> setup() async {
 
   // External Dependency
   final dio = Dio(BaseOptions(
-      receiveTimeout: const Duration(seconds: 30),
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE, HEAD",
-      },
-      baseUrl: dotenv.env['URL']!));
+    receiveTimeout: const Duration(seconds: 30),
+    headers: {
+      // "Access-Control-Allow-Headers":
+      //     "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Access-Control-Allow-Methods, Access-Control-Allow-Origin, Access-Control-Allow-Credentials",
+      "Access-Control-Allow-Origin": "*",
+      // "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE, HEAD",
+      // "Access-Control-Allow-Credentials": "true",
+    },
+  ));
   getIt.registerLazySingleton(() => dio);
 }

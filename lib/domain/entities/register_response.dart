@@ -2,29 +2,17 @@ import 'package:equatable/equatable.dart';
 
 
 class RegisterResponse extends Equatable {
-  final String id;
-  final String email;
-  final bool isActive;
-  final bool isSuperuser;
-  final bool isVerified;
-  final int balance;
+  final String access_token;
+  final String refresh_token;
 
   const RegisterResponse({
-    required this.id,
-    required this.email,
-    required this.isActive,
-    required this.isSuperuser,
-    required this.isVerified,
-    required this.balance,
+    required this.access_token,
+    required this.refresh_token,
   });
 
   @override
   List<Object?> get props => [
-        id,
-        email,
-        isActive,
-        isSuperuser,
-        isVerified,
-        balance,
+        access_token,
+        refresh_token,
       ];
 }

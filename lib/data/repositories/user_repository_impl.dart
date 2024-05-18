@@ -69,9 +69,9 @@ class UserRepositoryImpl implements UserRepository {
       final registerRequestModel = RegisterRequestModel(
         email: registerRequest.email,
         password: registerRequest.password,
-        isActive: registerRequest.isActive,
-        isSuperuser: registerRequest.isSuperuser,
-        isVerified: registerRequest.isVerified,
+        name: registerRequest.name,
+        phone_number: registerRequest.phone_number,
+        phone_number_code: registerRequest.phone_number_code,
       );
       return remoteDataSource
           .register(registerRequestModel)
