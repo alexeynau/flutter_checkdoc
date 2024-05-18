@@ -24910,7 +24910,7 @@ var $async$Yk=A.Q(function(a,b){if(a===1)return A.M(b,r)
 while(true)switch(s){case 0:if($.an==null)A.arG()
 $.an.toString
 s=2
-return A.U($.apG().yO(0,"assets/.env"),$async$Yk)
+return A.U($.apG().yO(0,"assets/dotenv"),$async$Yk)
 case 2:s=3
 return A.U(A.asW(),$async$Yk)
 case 3:if($.an==null)A.arG()
