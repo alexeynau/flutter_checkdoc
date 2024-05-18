@@ -53,7 +53,12 @@ class MyApp extends StatelessWidget {
         initialRoute: '/login',
         title: 'Check Doc',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Color.fromARGB(255, 255, 255, 255),
+            surface: const Color.fromARGB(255, 255, 255, 255),
+            primary: const Color.fromARGB(255, 0, 0, 0),
+            brightness: Brightness.light,
+          ),
           useMaterial3: true,
         ),
       ),

@@ -31,4 +31,6 @@ flutter:
 
   assets:
   - assets/dotenv
+  - assets/images/
+  - assets/
 

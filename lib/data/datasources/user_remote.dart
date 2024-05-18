@@ -23,7 +23,7 @@ abstract class UserRemoteData {
 class UserRemoteDataImpl implements UserRemoteData {
   String? url = dotenv.env['URL'];
   String? authUrl = dotenv.env['AUTH_SERVICE'];
-  String? accessToken = getIt<GlobalVariables>().accessToken;
+  // String? accessToken = getIt<GlobalVariables>().accessToken;
 
   @override
   Future<List<UserDocumentModel>> fetchDocuments() {
@@ -40,20 +40,25 @@ class UserRemoteDataImpl implements UserRemoteData {
       UserDocumentModel userDocument) async {
     var _dio = getIt<Dio>();
 
-    print(accessToken);
+    String? accessToken = getIt<GlobalVariables>().accessToken;
+    print("access token: $accessToken");
     List<int> documentBytes = userDocument.content as List<int>;
     FormData formData = FormData.fromMap({
-      "target": userDocument.targetClass,
+      // "target_class": userDocument.targetClass,
+      // "auth_token": accessToken,
       "document":
           MultipartFile.fromBytes(documentBytes, filename: userDocument.name),
     });
-
     var response = await _dio.post(
       "${url}v1/documents/",
       data: formData,
+      queryParameters: {
+        "auth_token": accessToken,
+        "target_class": userDocument.targetClass,
+      },
       options: Options(
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "multipart/x-www-form-urlencoded",
           "Authorization": "Bearer $accessToken",
         },
       ),

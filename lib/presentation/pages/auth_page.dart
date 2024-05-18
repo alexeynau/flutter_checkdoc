@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_checkdoc/presentation/bloc/login_user_bloc/login_user_bloc.dart';
 
+import '../../service_locator.dart';
+
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
 
@@ -22,6 +24,11 @@ class _AuthPageState extends State<AuthPage> {
       body: BlocListener<LoginUserBloc, LoginUserState>(
         listener: (context, state) {
           if (state is LoginUserSuccess) {
+            String accessToken = state.loginResponse.access_token;
+            print("Access token in login page: $accessToken");
+            getIt<GlobalVariables>().accessToken = accessToken;
+            print(
+                "Access token in global: ${getIt<GlobalVariables>().accessToken}");
             // Navigate to the home page or any other page after successful loginLoginFailure
             Navigator.of(context).pushReplacementNamed('/records');
           } else if (state is LoginUserFailure) {
