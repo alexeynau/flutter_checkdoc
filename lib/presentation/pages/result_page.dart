@@ -63,8 +63,8 @@ class SummarySection extends StatelessWidget {
 class DetailedResultsSection extends StatelessWidget {
   final String id;
   final Map<String, Color> mapOfColors = {
-    'SPEAKER_00': Colors.blue,
-    'SPEAKER_01': Colors.green,
+    'SPEAKER_00': const Color.fromARGB(255, 119, 177, 225),
+    'SPEAKER_01': const Color.fromARGB(255, 128, 221, 131),
     'SPEAKER_02': Colors.orange,
     'SPEAKER_03': Colors.purple,
     'SPEAKER_04': Colors.red,
@@ -128,62 +128,62 @@ class DetailedResultsSection extends StatelessWidget {
     String? accessToken = getIt<GlobalVariables>().accessToken;
     var _dio = getIt<Dio>();
 
-    // return _dio.get(
-    //   url,
-    //   queryParameters: {"auth_token": accessToken},
-    // ).then((response) {
-    //   if (response.statusCode == 200) {
-    //     print("in response");
-    //     final rawResult = RawResultModel.fromJson(response.data);
-    //     return ParsedResultModel.fromRawResult(rawResult);
-    //   } else {
-    //     throw Exception('Failed to load results');
-    //   }
-    // });
-
-    String result_tr =
-        """<Trans>SPEAKER_00: 2675 или Бежесибирская красавица.</Trans>
-<Trans>SPEAKER_01: 2-6-0-7-6-5, машина из Генбельска, на 2-4-3-4-ком в километре, слушаю.</Trans>
-<Trans>SPEAKER_00: Машинец, здравствуйте, поездной диспетчер, впереди полностью перегон свободен. Пожалуйста, максимальную скорость выдерживать надо 6.08, за вами еще куча-куча поездов.</Trans>
-<Trans>SPEAKER_01: Две шестьсот семьдесят пять, и начнёт геймплейский. Понятно, скорость максимально выдерживаем, шесть ноль восемь градусов, за нами куча проездов.</Trans>
-<Trans>SPEAKER_00: Верно. Стараемся, пожалуйста, в 6.08 пройти.</Trans>
-<Trans></Trans>""";
-    String result_er = """<speech>Роль: SPEAKER_00</speech>
-<error>Ошибка из диалога: Бежесибирская красавица.</error>
-<problem>Описание проблемы из регламента: Неупотребление установленных форм (сокращение установленных форм).</problem>
-
-<speech>Роль: SPEAKER_00</speech>
-<error>Ошибка из диалога: 2675</error>
-<problem>Описание проблемы из регламента: Неупотребление установленных форм (сокращение установленных форм).</problem>
-
-<speech>Роль: SPEAKER_01</speech>
-<error>Ошибка из диалога: 2-6-0-7-6-5, машина из Генбельска, на 2-4-3-4-ком в километре, слушаю.</error>
-<problem>Описание проблемы из регламента: Непередача показаний светофоров по маршруту следования (неупотребление установленных форм).</problem>
-
-<speech>Роль: SPEAKER_00</speech>
-<error>Ошибка из диалога: Машинец, здравствуйте, поездной диспетчер, впереди полностью перегон свободен. Пожалуйста, максимальную скорость выдерживать надо 6.08, за вами еще куча-куча поездов.</error>
-<problem>Описание проблемы из регламента: Неубеждение в правильности восприятия команды (недостаточная четкость).</problem>
-
-<speech>Роль: SPEAKER_01</speech>
-<error>Ошибка из диалога: Две шестьсот семьдесят пять, и начнёт геймплейский. Понятно, скорость максимально выдерживаем, шесть ноль восемь градусов, за нами куча проездов.</error>
-<problem>Описание проблемы из регламента: Неубеждение в правильности восприятия команды (недостаточная четкость).</problem>
-
-<speech>Роль: SPEAKER_00</speech>
-<error>Ошибка из диалога: Верно. Стараемся, пожалуйста, в 6.08 пройти.</error>
-<problem>Описание проблемы из регламента: Неубеждение в правильности восприятия команды (недостаточная четкость).</problem>
-
-<speech>Роль: SPEAKER_01</speech>
-<error>Ошибка из диалога: Получилось 6.08.</error>
-<problem>Описание проблемы из регламента: Неупотребление установленных форм (сокращение установленных форм).</problem>""";
-
-    return Future.delayed(Duration(seconds: 2), () {
-      return ParsedResultModel.fromRawResult(
-        RawResultModel(
-          result_tr: result_tr,
-          result_er: result_er,
-        ),
-      );
+    return _dio.get(
+      url,
+      queryParameters: {"auth_token": accessToken},
+    ).then((response) {
+      if (response.statusCode == 200) {
+        print("in response");
+        final rawResult = RawResultModel.fromJson(response.data);
+        return ParsedResultModel.fromRawResult(rawResult);
+      } else {
+        throw Exception('Failed to load results');
+      }
     });
+
+//     String result_tr =
+//         """<Trans>SPEAKER_00: 2675 или Бежесибирская красавица.</Trans>
+// <Trans>SPEAKER_01: 2-6-0-7-6-5, машина из Генбельска, на 2-4-3-4-ком в километре, слушаю.</Trans>
+// <Trans>SPEAKER_00: Машинец, здравствуйте, поездной диспетчер, впереди полностью перегон свободен. Пожалуйста, максимальную скорость выдерживать надо 6.08, за вами еще куча-куча поездов.</Trans>
+// <Trans>SPEAKER_01: Две шестьсот семьдесят пять, и начнёт геймплейский. Понятно, скорость максимально выдерживаем, шесть ноль восемь градусов, за нами куча проездов.</Trans>
+// <Trans>SPEAKER_00: Верно. Стараемся, пожалуйста, в 6.08 пройти.</Trans>
+// <Trans></Trans>""";
+//     String result_er = """<speech>Роль: SPEAKER_00</speech>
+// <error>Ошибка из диалога: Бежесибирская красавица.</error>
+// <problem>Описание проблемы из регламента: Неупотребление установленных форм (сокращение установленных форм).</problem>
+
+// <speech>Роль: SPEAKER_00</speech>
+// <error>Ошибка из диалога: 2675</error>
+// <problem>Описание проблемы из регламента: Неупотребление установленных форм (сокращение установленных форм).</problem>
+
+// <speech>Роль: SPEAKER_01</speech>
+// <error>Ошибка из диалога: 2-6-0-7-6-5, машина из Генбельска, на 2-4-3-4-ком в километре, слушаю.</error>
+// <problem>Описание проблемы из регламента: Непередача показаний светофоров по маршруту следования (неупотребление установленных форм).</problem>
+
+// <speech>Роль: SPEAKER_00</speech>
+// <error>Ошибка из диалога: Машинец, здравствуйте, поездной диспетчер, впереди полностью перегон свободен. Пожалуйста, максимальную скорость выдерживать надо 6.08, за вами еще куча-куча поездов.</error>
+// <problem>Описание проблемы из регламента: Неубеждение в правильности восприятия команды (недостаточная четкость).</problem>
+
+// <speech>Роль: SPEAKER_01</speech>
+// <error>Ошибка из диалога: Две шестьсот семьдесят пять, и начнёт геймплейский. Понятно, скорость максимально выдерживаем, шесть ноль восемь градусов, за нами куча проездов.</error>
+// <problem>Описание проблемы из регламента: Неубеждение в правильности восприятия команды (недостаточная четкость).</problem>
+
+// <speech>Роль: SPEAKER_00</speech>
+// <error>Ошибка из диалога: Верно. Стараемся, пожалуйста, в 6.08 пройти.</error>
+// <problem>Описание проблемы из регламента: Неубеждение в правильности восприятия команды (недостаточная четкость).</problem>
+
+// <speech>Роль: SPEAKER_01</speech>
+// <error>Ошибка из диалога: Получилось 6.08.</error>
+// <problem>Описание проблемы из регламента: Неупотребление установленных форм (сокращение установленных форм).</problem>""";
+
+//     return Future.delayed(Duration(seconds: 2), () {
+//       return ParsedResultModel.fromRawResult(
+//         RawResultModel(
+//           result_tr: result_tr,
+//           result_er: result_er,
+//         ),
+//       );
+//     });
   }
 }
 
@@ -194,6 +194,7 @@ class RawResultModel {
   RawResultModel({required this.result_tr, required this.result_er});
 
   factory RawResultModel.fromJson(Map<String, dynamic> json) {
+    print(json['result_er']);
     return RawResultModel(
       result_tr: json['result_tr'],
       result_er: json['result_er'],
@@ -235,7 +236,7 @@ List<SpeechError> parseSpeechErrors(String text) {
       r'<speech>Роль: (SPEAKER_\d+)<\/speech>\s*<error>Ошибка из диалога: (.+?)<\/error>\s*<problem>Описание проблемы из регламента: (.+?)<\/problem>');
   final Iterable<RegExpMatch> matches = speechRegExp.allMatches(text);
 
-  print("in parse speech errors");
+  print("in parse speech errors $text");
   return matches.map((match) {
     final String speechRole = match.group(1)!;
     final String error = match.group(2)!;
@@ -321,8 +322,9 @@ class LegendItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(text),
-        Text(error),
-        Text(problem),
+        Text("Ошибка из диалога $error"),
+        Text("Описание проблемы из регламента: $problem"),
+        SizedBox(height: 15,)
       ],
     );
   }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,7 +34,7 @@ class _RecordListPageState extends State<RecordListPage> {
         alignment: Alignment.topCenter,
         child: Container(
           // padding: EdgeInsets.only(top: 20),
-          width: 1140,
+          width: 1150,
           // height: 650,
           decoration: BoxDecoration(
             color: const Color.fromARGB(237, 237, 237, 237),
@@ -220,9 +222,9 @@ class _RecordListPageState extends State<RecordListPage> {
                                 DataColumn(label: Text('Название файла')),
                                 DataColumn(label: Text('Время начала записи')),
                                 DataColumn(label: Text('Длительность')),
+                                DataColumn(label: Text('Действия')),
                                 DataColumn(label: Text('Статус обработки')),
                                 DataColumn(label: Text('Статус проверки')),
-                                DataColumn(label: Text('Действия')),
                               ],
                               rows: snapshot.hasData
                                   ? snapshot.data!.map((doc) {
@@ -251,12 +253,14 @@ class _RecordListPageState extends State<RecordListPage> {
                                                 Navigator.of(context).pushNamed(
                                                   '/results',
                                                   arguments: {
-                                                    'id': doc.id,
+                                                    'id': doc.jobId,
                                                   },
                                                 );
                                               },
                                             ),
-                                            DataCell(Text(doc.createdAt)),
+                                            DataCell(Text(doc.createdAt
+                                                .toString()
+                                                .substring(0, 10))),
                                             DataCell(
                                               Text(
                                                   // '${doc.startTime} - ${doc.endTime}',
@@ -315,12 +319,15 @@ class _RecordListPageState extends State<RecordListPage> {
     String url = dotenv.env['URL']! + 'v1/documents';
     String? accessToken = getIt<GlobalVariables>().accessToken;
     var _dio = getIt<Dio>();
+    print("in fetchDocuments");
     return _dio.get(
       url,
       queryParameters: {"auth_token": accessToken},
     ).then(
       (response) {
+        print("got response ${response.statusCode}");
         if (response.statusCode == 200) {
+          print("docs: ${response.data}");
           List<Document> documents = [];
           for (var doc in response.data) {
             var document = Document.fromJson(doc);
@@ -336,33 +343,42 @@ class _RecordListPageState extends State<RecordListPage> {
   }
 }
 
-
-
 class Document {
-  final bool anyErrorVerified;
   final String id;
-  final String createdAt;
-  final bool isDeleted;
-  final String anyErrorReason;
+  final bool anyErrorVerified;
+  final DateTime createdAt;
   final String name;
+  final bool isDeleted;
+  final String jobId;
 
-  Document( {
-    required this.anyErrorVerified,
+  Document({
     required this.id,
+    required this.anyErrorVerified,
     required this.createdAt,
-    required this.isDeleted,
-    required this.anyErrorReason,
     required this.name,
+    required this.isDeleted,
+    required this.jobId,
   });
 
   factory Document.fromJson(Map<String, dynamic> json) {
     return Document(
-      anyErrorVerified: json['any_error_verified'] ?? false,
-      id: json['id'] ?? '',
-      createdAt: json['created_at'] ?? '',
-      isDeleted: json['is_deleted'] ?? false,
-      anyErrorReason: json['any_error_reason'] ?? '',
-      name: json['name'] ?? '',
+      id: json['id'],
+      anyErrorVerified: json['any_error_verified'],
+      createdAt: DateTime.parse(json['created_at']),
+      name: json['name'],
+      isDeleted: json['is_deleted'],
+      jobId: json['job_id'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'any_error_verified': anyErrorVerified,
+      'created_at': createdAt.toIso8601String(),
+      'name': name,
+      'is_deleted': isDeleted,
+      'job_id': jobId,
+    };
   }
 }

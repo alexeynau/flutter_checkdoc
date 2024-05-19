@@ -16,7 +16,7 @@ class _AuthPageState extends State<AuthPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   TextStyle style =
-      const TextStyle(fontSize: 18, color: Colors.grey, height: 2);
+      const TextStyle(fontSize: 18, color: Colors.white, height: 2);
   @override
   Widget build(BuildContext context) {
     final loginUserBloc = BlocProvider.of<LoginUserBloc>(context);
@@ -45,14 +45,15 @@ class _AuthPageState extends State<AuthPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text(
-                    "Авторизация",
+                    "АВТОРИЗАЦИЯ",
                     style: TextStyle(
                       fontSize: 18,
                       height: 1.5,
+                      color: Colors.red
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   SizedBox(
                     width: 398,
@@ -65,7 +66,7 @@ class _AuthPageState extends State<AuthPage> {
                         hintStyle: TextStyle(fontSize: 18, height: 1.5),
                         hintText: "E-mail",
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                          borderRadius: BorderRadius.all(Radius.circular(0)),
                         ),
                       ),
                     ),
@@ -106,13 +107,13 @@ class _AuthPageState extends State<AuthPage> {
                         hintStyle: const TextStyle(color: Colors.grey),
                         hintText: "Пароль",
                         border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                          borderRadius: BorderRadius.all(Radius.circular(0)),
                         ),
                       ),
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   SizedBox(
                     width: 398,
@@ -122,47 +123,33 @@ class _AuthPageState extends State<AuthPage> {
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
+                                    borderRadius: BorderRadius.circular(0.0),
                                     side:
-                                        BorderSide(color: Color(0xFF7700FF)))),
+                                        BorderSide(color: Colors.red))),
                         backgroundColor:
-                            MaterialStatePropertyAll(Color(0xFF7700FF)),
+                            MaterialStatePropertyAll( Colors.red),
                         overlayColor: MaterialStatePropertyAll(
-                            Color.fromARGB(255, 153, 74, 243)),
+                             Colors.red),
                       ),
                       onPressed: () {
                         // ignore: avoid_print
                         print(
-                            "${_emailController.text}  ${_passwordController.text}"); //TODO Леха Сюда запрос на авторизацию
+                            "${_emailController.text}  ${_passwordController.text}");  
 
                         loginUserBloc.add(LoginEvent(
                           email: _emailController.text,
                           password: _passwordController.text,
                         ));
                       },
-                      child: Container(
-                        margin: const EdgeInsets.only(right: 25),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.arrow_forward_sharp,
-                              color: Colors.white,
-                            ),
-                            Container(
-                              width: 15,
-                            ),
-                            Text(
-                              "Продолжить",
+                      child: 
+                      Text(
+                              "ПРОДОЛЖИТЬ",
                               style: style,
                             ),
-                          ],
-                        ),
-                      ),
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   SizedBox(
                     width: 398,
@@ -172,36 +159,23 @@ class _AuthPageState extends State<AuthPage> {
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
+                                    borderRadius: BorderRadius.circular(0.0),
                                     side:
-                                        BorderSide(color: Color(0xFF7700FF)))),
+                                        BorderSide(color:  Colors.red))),
                         backgroundColor:
-                            MaterialStatePropertyAll(Color(0xFF7700FF)),
+                            MaterialStatePropertyAll( Colors.red),
                         overlayColor: MaterialStatePropertyAll(
-                            Color.fromARGB(255, 153, 74, 243)),
+                             Colors.red),
                       ),
                       onPressed: () {
                         // ignore: avoid_print
                         Navigator.of(context).pushReplacementNamed('/register');
                       },
-                      child: Container(
-                        margin: const EdgeInsets.only(right: 25),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.arrow_forward_sharp,
-                              color: Colors.white,
-                            ),
-                            Container(
-                              width: 15,
-                            ),
-                            Text(
-                              "Зарегистрироваться",
+                      child: Container( 
+                        child: Text(
+                              "ЗАРЕГИСТРИРОВАТЬСЯ",
                               style: style,
                             ),
-                          ],
-                        ),
                       ),
                     ),
                   ),
