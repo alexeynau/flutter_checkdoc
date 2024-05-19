@@ -1,57 +1,53 @@
+import 'dart:convert';
+
 import 'package:flutter_checkdoc/domain/entities/login_request.dart';
 import 'package:flutter_checkdoc/domain/entities/login_response.dart';
 
 class LoginRequestModel extends LoginRequest {
   LoginRequestModel({
-    grantType = "",
-    required super.username,
+    required super.email,
     required super.password,
-    scope = "",
-    clientId = "",
-    clientSecret = "",
-  }) : super(
-          grantType: grantType,
-          scope: scope,
-          clientId: clientId,
-          clientSecret: clientSecret,
-        );
+  });
 
   factory LoginRequestModel.fromJson(Map<String, dynamic> json) {
     return LoginRequestModel(
-      grantType: json['grant_type'],
-      username: json['username'],
+      email: json['email'],
       password: json['password'],
-      scope: json['scope'],
-      clientId: json['client_id'],
-      clientSecret: json['client_secret'],
     );
+  }
+
+  String toFormUrlEncoded() {
+    return "email=$email&password=$password";
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "grant_type": grantType,
-      "username": username,
+      "email": email,
       "password": password,
-      "scope": scope,
-      "client_id": clientId,
-      "client_secret": clientSecret,
     };
   }
 }
 
 class LoginResponseModel extends LoginResponse {
-  LoginResponseModel({
-    required token,
-    required refreshToken,
-  }) : super(
-          token: token,
-          refreshToken: refreshToken,
-        );
+  const LoginResponseModel({
+    required super.access_token,
+    required super.refresh_token,
+  });
+
+  factory LoginResponseModel.fromRawJson(String str) =>
+      LoginResponseModel.fromJson(json.decode(str));
 
   factory LoginResponseModel.fromJson(Map<String, dynamic> json) {
     return LoginResponseModel(
-      token: json['token'],
-      refreshToken: json['refreshToken'],
+      access_token: json["access_token"],
+      refresh_token: json["refresh_token"],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "access_token": access_token,
+      "refresh_token": refresh_token,
+    };
   }
 }

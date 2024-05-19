@@ -1,14 +1,17 @@
 import 'package:equatable/equatable.dart';
 
-class LoginResponse extends Equatable{
-  final String token;
-  final String refreshToken;
+class LoginResponse extends Equatable {
+  final String access_token;
+  final String refresh_token;
 
-  const LoginResponse({required this.token, required this.refreshToken});
-  
+  const LoginResponse({
+    required this.access_token,
+    required this.refresh_token,
+  });
+
   @override
-  // TODO: implement props
-  List<Object?> get props => [token, refreshToken];
-
- 
+  List<Object?> get props => [
+        access_token,
+        refresh_token,
+      ];
 }

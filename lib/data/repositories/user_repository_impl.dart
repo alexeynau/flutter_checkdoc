@@ -25,27 +25,24 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<Either<Failure, List<UserDocument>>> fetchDocuments() {
     try {
-      return remoteDataSource
-          .fetchDocuments()
-          .then((value) => Right(value));
+      return remoteDataSource.fetchDocuments().then((value) => Right(value));
     } on Exception {
       return Future.value(const Left(ServerFailure()));
     }
   }
 
   @override
-  Future<Either<Failure, UploadFileResponse>> uploadDocument(UserDocument document) {
+  Future<Either<Failure, UploadFileResponse>> uploadDocument(
+      UserDocument document) {
     UserDocumentModel userDocumentModel = UserDocumentModel(
-     name: document.name,
-     targetClass: document.targetClass,
-     content: document.content,
-      
+      name: document.name,
+      targetClass: document.targetClass,
+      content: document.content,
     );
     try {
       return remoteDataSource
           .uploadDocument(userDocumentModel)
           .then((value) => Right(value));
-
     } on Exception {
       return Future.value(const Left(ServerFailure()));
     }
@@ -69,9 +66,9 @@ class UserRepositoryImpl implements UserRepository {
       final registerRequestModel = RegisterRequestModel(
         email: registerRequest.email,
         password: registerRequest.password,
-        isActive: registerRequest.isActive,
-        isSuperuser: registerRequest.isSuperuser,
-        isVerified: registerRequest.isVerified,
+        name: registerRequest.name,
+        phone_number: registerRequest.phone_number,
+        phone_number_code: registerRequest.phone_number_code,
       );
       return remoteDataSource
           .register(registerRequestModel)
@@ -84,7 +81,7 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<Either<Failure, LoginResponse>> login(LoginRequest loginRequest) {
     LoginRequestModel loginRequestModel = LoginRequestModel(
-      username: loginRequest.username,
+      email: loginRequest.email,
       password: loginRequest.password,
     );
 

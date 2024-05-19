@@ -10,7 +10,7 @@ import 'package:flutter_checkdoc/domain/use_cases/login_user.dart';
 import 'package:flutter_checkdoc/presentation/bloc/document_list_bloc/document_list_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+// import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'domain/use_cases/register_user.dart';
 import 'presentation/bloc/register_bloc/register_bloc.dart';
@@ -26,7 +26,7 @@ class GlobalVariables {
 
   GlobalVariables._internal();
 
-  String globalVariable = '1e24c826-b3f6-45cb-9b89-e61aff0bc6b0';
+  String accessToken = '';
 }
 
 Future<void> setup() async {
@@ -57,11 +57,7 @@ Future<void> setup() async {
 
   // External Dependency
   final dio = Dio(BaseOptions(
-      receiveTimeout: const Duration(seconds: 30),
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE, HEAD",
-      },
-      baseUrl: dotenv.env['URL']!));
+    receiveTimeout: const Duration(seconds: 30),
+  ));
   getIt.registerLazySingleton(() => dio);
 }

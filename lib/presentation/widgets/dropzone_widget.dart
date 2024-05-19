@@ -5,7 +5,7 @@ import 'package:flutter_checkdoc/service_locator.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
 
 import '../../domain/entities/document.dart';
-import '../../domain/use_cases/validate_document.dart';
+// import '../../domain/use_cases/validate_document.dart';
 
 class DropzoneWidget extends StatefulWidget {
   String targetClass;
@@ -58,21 +58,21 @@ class _DropzoneWidgetState extends State<DropzoneWidget> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            Icons.upload_file,
+                            Icons.audio_file_outlined,
                             size: 100,
                             color: Color.fromARGB(255, 0, 0, 0),
                           ),
                           Column(
                             children: [
                               Text(
-                                'Загрузите файл',
+                                'Загрузите аудиофайл',
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 0, 0, 0),
                                   fontSize: 16,
                                 ),
                               ),
                               Text(
-                                '(.pdf, .docx, .xls)',
+                                '(.wav)',
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 0, 0, 0),
                                   fontSize: 16,
@@ -110,7 +110,7 @@ class _DropzoneWidgetState extends State<DropzoneWidget> {
 
   Future acceptFile(dynamic event) async {
     final UploadDocument uploadDocument = getIt.get<UploadDocument>();
-    final ValidateDocument validateDocument = getIt.get<ValidateDocument>();
+    // final ValidateDocument validateDocument = getIt.get<ValidateDocument>();
     setState(() {
       isLoad = true;
       isReady = true;
@@ -135,46 +135,53 @@ class _DropzoneWidgetState extends State<DropzoneWidget> {
       ),
     ));
 
-    if (uploaded.isRight()) { 
-      bool getValidation = false;
-
-      while (!getValidation) {
-        final toValidate = await validateDocument(
-          ValidateDocumentParams(
-            docId: uploaded.fold((l) {
-              setState(() {
-                isReady = false;
-                isLoad = false;
-              });
-              return "";
-            }, (r) => r.docId),
-          ),
-        );
-
-        if (toValidate.isRight()) {
-          toValidate.fold((l) => null, (r) {
-            if (r.verified != null) {
-              if (r.verified!) {
-                getValidation = true;
-              } else {
-                // To do: handle failed validation
-                getValidation = false;
-              }
-            }
-          });
-        } else {
-          await Future.delayed(const Duration(seconds: 1));
-        }
-      }
-    } else {
+    if (uploaded.isRight()) {
       setState(() {
         isReady = false;
         isLoad = false;
       });
-      print('Error: ${uploaded.fold((l) => l.cause, (r) => '')}');
     }
-    setState(() {
-      isLoad = false;
-    });
   }
+  //   if (uploaded.isRight()) {
+  //     bool getValidation = false;
+
+  //     while (!getValidation) {
+  //       final toValidate = await validateDocument(
+  //         ValidateDocumentParams(
+  //           docId: uploaded.fold((l) {
+  //             setState(() {
+  //               isReady = false;
+  //               isLoad = false;
+  //             });
+  //             return "";
+  //           }, (r) => r.docId),
+  //         ),
+  //       );
+
+  //       if (toValidate.isRight()) {
+  //         toValidate.fold((l) => null, (r) {
+  //           if (r.verified != null) {
+  //             if (r.verified!) {
+  //               getValidation = true;
+  //             } else {
+  //               // To do: handle failed validation
+  //               getValidation = false;
+  //             }
+  //           }
+  //         });
+  //       } else {
+  //         await Future.delayed(const Duration(seconds: 1));
+  //       }
+  //     }
+  //   } else {
+  //     setState(() {
+  //       isReady = false;
+  //       isLoad = false;
+  //     });
+  //     print('Error: ${uploaded.fold((l) => l.cause, (r) => '')}');
+  //   }
+  //   setState(() {
+  //     isLoad = false;
+  //   });
+  // }
 }
