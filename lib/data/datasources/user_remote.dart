@@ -50,11 +50,10 @@ class UserRemoteDataImpl implements UserRemoteData {
           MultipartFile.fromBytes(documentBytes, filename: userDocument.name),
     });
     var response = await _dio.post(
-      "${url}v1/documents/",
+      "${url}v1/documents",
       data: formData,
       queryParameters: {
         "auth_token": accessToken,
-        "target_class": userDocument.targetClass,
       },
       options: Options(
         headers: {

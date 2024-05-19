@@ -1,11 +1,19 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_checkdoc/presentation/widgets/dropzone_widget.dart';
 import 'package:flutter_checkdoc/service_locator.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class RecordListPage extends StatelessWidget {
+class RecordListPage extends StatefulWidget {
+  const RecordListPage({super.key});
+
+  @override
+  State<RecordListPage> createState() => _RecordListPageState();
+}
+
+class _RecordListPageState extends State<RecordListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,23 +114,29 @@ class RecordListPage extends StatelessWidget {
                                                 label: "Устав 2 . . ."),
                                           ],
                                         ),
-                                        Container(
-                                          width: 129,
-                                          height: 39,
-                                          decoration: const BoxDecoration(
-                                            color: Colors.red,
-                                          ),
-                                          child: const Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                'ЗАГРУЗИТЬ',
-                                                style: TextStyle(
-                                                  color: Colors.white,
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.of(context).pop();
+                                            setState(() {});
+                                          },
+                                          child: Container(
+                                            width: 129,
+                                            height: 39,
+                                            decoration: const BoxDecoration(
+                                              color: Colors.red,
+                                            ),
+                                            child: const Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  'ЗАГРУЗИТЬ',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -234,8 +248,12 @@ class RecordListPage extends StatelessWidget {
                                             DataCell(
                                               Text(doc.name),
                                               onTap: () {
-                                                Navigator.of(context)
-                                                    .pushNamed('/results');
+                                                Navigator.of(context).pushNamed(
+                                                  '/results',
+                                                  arguments: {
+                                                    'id': doc.id,
+                                                  },
+                                                );
                                               },
                                             ),
                                             DataCell(Text(doc.createdAt)),
@@ -262,10 +280,10 @@ class RecordListPage extends StatelessWidget {
                                                 ),
                                               ],
                                             )),
-                                            DataCell(Text(doc.verified
+                                            DataCell(Text(doc.anyErrorVerified
                                                 ? 'Проверен'
                                                 : 'Не проверен')),
-                                            DataCell(Text(doc.verified
+                                            DataCell(Text(doc.anyErrorVerified
                                                 ? 'Обработан'
                                                 : 'Не обработан')),
                                           ]);
@@ -305,7 +323,9 @@ class RecordListPage extends StatelessWidget {
         if (response.statusCode == 200) {
           List<Document> documents = [];
           for (var doc in response.data) {
-            documents.add(Document.fromJson(doc));
+            var document = Document.fromJson(doc);
+
+            documents.add(document);
           }
           return documents;
         } else {
@@ -316,40 +336,32 @@ class RecordListPage extends StatelessWidget {
   }
 }
 
-// class Document {
-//   final String name;
-//   final String time;
-//   final String startTime;
-//   final String endTime;
-//   final String processingStatus;
-//   final String verificationStatus;
 
-//   Document(this.name, this.time, this.startTime, this.endTime,
-//       this.processingStatus, this.verificationStatus);
+
 class Document {
-  final bool verified;
+  final bool anyErrorVerified;
   final String id;
   final String createdAt;
   final bool isDeleted;
-  final String cancellationReason;
+  final String anyErrorReason;
   final String name;
 
-  Document({
-    required this.verified,
+  Document( {
+    required this.anyErrorVerified,
     required this.id,
     required this.createdAt,
     required this.isDeleted,
-    required this.cancellationReason,
+    required this.anyErrorReason,
     required this.name,
   });
 
   factory Document.fromJson(Map<String, dynamic> json) {
     return Document(
-      verified: json['verified'] ?? false,
+      anyErrorVerified: json['any_error_verified'] ?? false,
       id: json['id'] ?? '',
       createdAt: json['created_at'] ?? '',
       isDeleted: json['is_deleted'] ?? false,
-      cancellationReason: json['cancellation_reason'] ?? '',
+      anyErrorReason: json['any_error_reason'] ?? '',
       name: json['name'] ?? '',
     );
   }
