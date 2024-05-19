@@ -15,15 +15,16 @@ class ResultsPage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            // SummarySection(),
-            // SizedBox(height: 20),
-            DetailedResultsSection(
-              id: id,
-            ),
-          ],
-        ),
+        child:  Column(
+            children: [
+              // SummarySection(),
+              // SizedBox(height: 20),
+              DetailedResultsSection(
+                id: id,
+              ),
+            ],
+          ),
+      
       ),
     );
   }
@@ -63,10 +64,10 @@ class SummarySection extends StatelessWidget {
 class DetailedResultsSection extends StatelessWidget {
   final String id;
   final Map<String, Color> mapOfColors = {
-    'SPEAKER_00': const Color.fromARGB(255, 119, 177, 225),
-    'SPEAKER_01': const Color.fromARGB(255, 128, 221, 131),
-    'SPEAKER_02': Colors.orange,
-    'SPEAKER_03': Colors.purple,
+    'SPEAKER_00': Color.fromARGB(255, 255, 169, 169),
+    'SPEAKER_01': Color.fromARGB(171, 202, 255, 244),
+    'SPEAKER_02': Color.fromARGB(255, 177, 244, 153),
+    'SPEAKER_03': const Color.fromARGB(255, 239, 151, 255),
     'SPEAKER_04': Colors.red,
     'SPEAKER_05': Colors.yellow,
   };
@@ -85,37 +86,64 @@ class DetailedResultsSection extends StatelessWidget {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 }
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                return Container(
+                  height: 400,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Детализированные результаты:',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Детализированные результаты:',
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                            MouseRegion(
+                              cursor: SystemMouseCursors.click,
+                              child: GestureDetector(
+                                child: Container(
+                                  width: 211,
+                                  height: 39,
+                                  decoration: const BoxDecoration(
+                                    color: Color.fromARGB(188, 228, 29, 19),
+                                  ),
+                                  child: const Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.add,
+                                          size: 30,
+                                          color:
+                                              Color.fromARGB(255, 255, 255, 255)),
+                                      SizedBox(width: 10),
+                                      Text(
+                                        'ЖАЛОБА ОТ РОЛИ',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red),
-                          child: Text('Жалоба от роли'),
+                        SizedBox(height: 10),
+                        ...snapshot.data!.speeches.map((speech) => SpeechCard(
+                              role: speech.role,
+                              text: speech.text,
+                              color: mapOfColors[speech.role],
+                            )),
+                        SizedBox(height: 10),
+                        Legend(
+                          errors: snapshot.data!.errors,
+                          speeches: snapshot.data!.speeches,
                         ),
                       ],
                     ),
-                    SizedBox(height: 10),
-                    ...snapshot.data!.speeches.map((speech) => SpeechCard(
-                          role: speech.role,
-                          text: speech.text,
-                          color: mapOfColors[speech.role],
-                        )),
-                    SizedBox(height: 10),
-                    Legend(
-                      errors: snapshot.data!.errors,
-                      speeches: snapshot.data!.speeches,
-                    ),
-                  ],
+                  ),
                 );
               }),
         ),
@@ -293,7 +321,7 @@ class Legend extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ...errors.map((error) {
-          if (error.problem != 'Нет' && count < speeches.length){
+          if (error.problem != 'Нет' && count < speeches.length) {
             return Container(
               child: LegendItem(
                 text: error.speech + ':' + speeches[count++].text,
@@ -324,7 +352,9 @@ class LegendItem extends StatelessWidget {
         Text(text),
         Text("Ошибка из диалога $error"),
         Text("Описание проблемы из регламента: $problem"),
-        SizedBox(height: 15,)
+        SizedBox(
+          height: 15,
+        )
       ],
     );
   }

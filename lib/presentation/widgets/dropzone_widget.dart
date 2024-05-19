@@ -28,8 +28,8 @@ class _DropzoneWidgetState extends State<DropzoneWidget> {
         height: 200,
         width: 200,
         color: isHovered
-            ? Colors.grey
-            : ColorScheme.fromSeed(seedColor: Colors.deepPurple).surface,
+            ? const Color.fromARGB(255, 157, 157, 157)
+            : ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 255, 255, 255)).surface,
         child: DottedBorder(
           borderType: BorderType.RRect,
           color: const Color.fromARGB(255, 0, 0, 0),
@@ -137,7 +137,7 @@ class _DropzoneWidgetState extends State<DropzoneWidget> {
 
     if (uploaded.isRight()) {
       setState(() {
-        isReady = false;
+        // isReady = false;
         isLoad = false;
       });
     }

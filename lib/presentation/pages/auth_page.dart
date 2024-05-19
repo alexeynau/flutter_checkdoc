@@ -42,6 +42,7 @@ class _AuthPageState extends State<AuthPage> {
           builder: (context, state) {
             return Center(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text(
@@ -80,7 +81,7 @@ class _AuthPageState extends State<AuthPage> {
                     child: TextField(
                       controller: _passwordController,
                       obscureText: isObscure,
-                      style: style,
+                      style: const TextStyle(fontSize: 18, height: 1.5),
                       decoration: InputDecoration(
                         prefix: const Text("   "),
                         suffixIcon: Padding(
@@ -104,7 +105,7 @@ class _AuthPageState extends State<AuthPage> {
                             ),
                           ),
                         ),
-                        hintStyle: const TextStyle(color: Colors.grey),
+                        hintStyle:const TextStyle(fontSize: 18, height: 1.5),
                         hintText: "Пароль",
                         border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(0)),

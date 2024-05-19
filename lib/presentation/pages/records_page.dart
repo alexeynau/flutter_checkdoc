@@ -62,7 +62,7 @@ class _RecordListPageState extends State<RecordListPage> {
                       child: Container(
                         child: const Row(
                           children: [
-                            Icon(Icons.filter_alt, size: 40, color: Colors.red),
+                            Icon(Icons.filter_alt, size: 40, color: Color.fromARGB(190, 228, 29, 19)),
                             Text('Фильтр'),
                           ],
                         ),
@@ -107,10 +107,11 @@ class _RecordListPageState extends State<RecordListPage> {
                                       children: [
                                         DropzoneWidget(targetClass: "audio"),
                                         const DropdownMenu(
+                                          initialSelection: 0,
                                           dropdownMenuEntries: <DropdownMenuEntry>[
                                             DropdownMenuEntry(
                                                 value: 0,
-                                                label: "Устав 1 . . ."),
+                                                label: "Приложение №20 . . ."),
                                             DropdownMenuEntry(
                                                 value: 1,
                                                 label: "Устав 2 . . ."),
@@ -154,7 +155,7 @@ class _RecordListPageState extends State<RecordListPage> {
                           width: 211,
                           height: 39,
                           decoration: const BoxDecoration(
-                            color: Colors.red,
+                            color: Color.fromARGB(255, 255, 13, 0),
                           ),
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -174,6 +175,7 @@ class _RecordListPageState extends State<RecordListPage> {
                         ),
                       ),
                     )
+                  
                   ],
                 ),
               ),
